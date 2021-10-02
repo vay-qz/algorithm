@@ -1,6 +1,8 @@
 package dp
 
-import "sort"
+import (
+	"sort"
+)
 
 func Rob(nums []int) int {
 	return rob(nums)
@@ -296,4 +298,81 @@ func findLongestChain(pairs [][]int) int {
 		}
 	}
 	return max
+}
+
+func wiggleMaxLength(nums []int) int {
+	// 两个数字相等怎么办
+	if len(nums) < 3 {
+		return len(nums)
+	}
+	nums2 := make([]int, len(nums)-1)
+	for i := 0; i < len(nums2); i++ {
+		nums2[i] = nums[i+1] - nums[i]
+	}
+	dp := make([]int, len(nums2))
+	dp[0] = 2
+	for i := 0; i < len(nums2); i++ {
+		dp[i] = 2
+		for j := 0; j < i; j++ {
+			if dp[i]*dp[j] < 0 {
+				dp[i] = dp[j] + 1
+			}
+		}
+	}
+	max := 0
+	for i := 0; i < len(dp); i++ {
+		if max < dp[i] {
+			max = dp[i]
+		}
+	}
+	return max
+}
+
+func longestCommonSubsequence(text1 string, text2 string) int {
+	dp := make([][]int, len(text1)+1)
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([]int, len(text2)+1)
+	}
+	for i := 1; i < len(dp); i++ {
+		for j := 1; j < len(dp[0]); j++ {
+			if text1[i] == text2[j] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			} else {
+				dp[i][j] = biger(dp[i-1][j], dp[i][j-1])
+			}
+		}
+	}
+	return dp[len(text1)][len(text2)]
+}
+
+func canPartition(nums []int) bool {
+	if len(nums) == 1 {
+		return false
+	}
+	sum := 0
+	max := 0
+	for i := 0; i < len(nums); i++ {
+		if max < nums[i] {
+			max = nums[i]
+		}
+		sum += nums[i]
+	}
+	if sum%2 == 1 || max > sum/2 {
+		return false
+	}
+	target := sum / 2
+	dp := make([][]bool, len(nums))
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([]bool, target+1)
+	}
+	for i := 0; i < len(dp); i++ {
+		for j := 0; j < target+1; j++ {
+			if j > nums[i] {
+				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
+			} else {
+				dp[i][j] = dp[i-1][j]
+			}
+		}
+	}
+	return dp[len(nums)-1][target]
 }
