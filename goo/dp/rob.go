@@ -1,6 +1,7 @@
 package dp
 
 import (
+	"math"
 	"sort"
 )
 
@@ -15,21 +16,33 @@ func rob(nums []int) int {
 	if len(nums) == 2 {
 		return biger(nums[0], nums[1])
 	}
+	far, near := nums[0], biger(nums[0], nums[1])
+	for i := 2; i < len(nums); i++ {
+		far, near = near, biger(near, far+nums[i])
+	}
+	return near
+}
+
+func rob2(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	if len(nums) == 2 {
+		return biger(nums[0], nums[1])
+	}
 	return biger(doRob(nums[:len(nums)-1]), doRob(nums[1:]))
 }
 
 func doRob(nums []int) int {
-	var dp = make([]int, len(nums))
-	dp[0] = nums[0]
-	dp[1] = biger(nums[0], nums[1])
+	min, max := nums[0], biger(nums[0], nums[1])
 	for i := 2; i < len(nums); i++ {
-		dp[i] = biger(dp[i-1], dp[i-2]+nums[i])
+		min, max = max, biger(max, min+nums[i])
 	}
-	return dp[len(nums)-1]
+	return max
 }
 
 func MinPathSum(grid [][]int) int {
-	return minPathSum(grid)
+	return minPathSum2(grid)
 }
 
 func minPathSum(grid [][]int) int {
@@ -57,6 +70,33 @@ func minPathSum(grid [][]int) int {
 		}
 	}
 	return dp[m-1][n-1]
+}
+
+func minPathSum2(grid [][]int) int {
+	var m = len(grid)
+	var n = len(grid[0])
+	var dp = make([]int, n)
+	var last int
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if i == 0 {
+				if j == 0 {
+					dp[j] = grid[i][j]
+				} else {
+					dp[j] = dp[j-1] + grid[i][j]
+				}
+			} else {
+				if j == 0 {
+					dp[j] = dp[j] + grid[i][j]
+					last = dp[j]
+				} else {
+					dp[j] = smaller(last, dp[j]) + grid[i][j]
+					last = dp[j]
+				}
+			}
+		}
+	}
+	return dp[n-1]
 }
 
 func smaller(x, y int) int {
@@ -93,7 +133,7 @@ func uniquePaths(m int, n int) int {
 }
 
 func NumberOfArithmeticSlices(nums []int) int {
-	return numberOfArithmeticSlices(nums)
+	return numberOfArithmeticSlices2(nums)
 }
 
 func numberOfArithmeticSlices(nums []int) int {
@@ -111,6 +151,34 @@ func numberOfArithmeticSlices(nums []int) int {
 		if dp[i] == dp[j] {
 			for j < len(dp)-1 {
 				if dp[j] == dp[j+1] {
+					j++
+				} else {
+					break
+				}
+			}
+			n := j - i + 1
+			sum += n * (n - 1) / 2
+			i = j + 1
+			j = i + 1
+		} else {
+			i++
+			j++
+		}
+	}
+	return sum
+}
+
+func numberOfArithmeticSlices2(nums []int) int {
+	if len(nums) < 3 {
+		return 0
+	}
+	sum := 0
+	i := 0
+	j := 1
+	for j < len(nums)-1 {
+		if nums[j+1]-nums[j] == nums[i+1]-nums[i] {
+			for j < len(nums)-2 {
+				if nums[j+1]-nums[j] == nums[j+2]-nums[j+1] {
 					j++
 				} else {
 					break
@@ -160,7 +228,7 @@ func integerBreak(n int) int {
 }
 
 func NumSquares(n int) int {
-	return numSquares(n)
+	return numSquares2(n)
 }
 
 func numSquares(n int) int {
@@ -183,6 +251,34 @@ func numSquares(n int) int {
 		dp[i] = min
 	}
 	return dp[n]
+}
+
+func numSquares2(n int) int {
+	if isPerfactNum(n) {
+		return 1
+	}
+	if isFour(n) {
+		return 4
+	}
+	for i := 1; i*i < n; i++ {
+		j := n - i*i
+		if isPerfactNum(j) {
+			return 2
+		}
+	}
+	return 3
+}
+
+func isFour(n int) bool {
+	for n%4 == 0 {
+		n /= 4
+	}
+	return n%8 == 7
+}
+
+func isPerfactNum(n int) bool {
+	y := int(math.Sqrt(float64(n)))
+	return y*y == n
 }
 
 func NumDecodings(s string) int {
@@ -300,6 +396,11 @@ func findLongestChain(pairs [][]int) int {
 	return max
 }
 
+// todo 待贪心来做
+func WiggleMaxLength(nums []int) int {
+	return wiggleMaxLength(nums)
+}
+
 func wiggleMaxLength(nums []int) int {
 	// 两个数字相等怎么办
 	if len(nums) < 3 {
@@ -313,9 +414,13 @@ func wiggleMaxLength(nums []int) int {
 	dp[0] = 2
 	for i := 0; i < len(nums2); i++ {
 		dp[i] = 2
-		for j := 0; j < i; j++ {
-			if dp[i]*dp[j] < 0 {
-				dp[i] = dp[j] + 1
+		for j := i + 1; j < len(nums2); j++ {
+			if nums2[i]*nums2[j] < 0 {
+				dp[j] = dp[j-1] + 1
+				i++
+			} else {
+				i = j
+				break
 			}
 		}
 	}
@@ -328,6 +433,7 @@ func wiggleMaxLength(nums []int) int {
 	return max
 }
 
+// todo 待提交
 func longestCommonSubsequence(text1 string, text2 string) int {
 	dp := make([][]int, len(text1)+1)
 	for i := 0; i < len(dp); i++ {
@@ -345,6 +451,7 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	return dp[len(text1)][len(text2)]
 }
 
+// todo 待提交
 func canPartition(nums []int) bool {
 	if len(nums) == 1 {
 		return false
@@ -352,27 +459,29 @@ func canPartition(nums []int) bool {
 	sum := 0
 	max := 0
 	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
 		if max < nums[i] {
 			max = nums[i]
 		}
-		sum += nums[i]
-	}
-	if sum%2 == 1 || max > sum/2 {
-		return false
 	}
 	target := sum / 2
-	dp := make([][]bool, len(nums))
-	for i := 0; i < len(dp); i++ {
-		dp[i] = make([]bool, target+1)
+	if sum%2 == 1 || max > target {
+		return false
 	}
-	for i := 0; i < len(dp); i++ {
-		for j := 0; j < target+1; j++ {
-			if j > nums[i] {
-				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
-			} else {
+	var dp = make([][]bool, len(nums))
+	for i := 0; i < len(nums); i++ {
+		dp[i] = make([]bool, target)
+	}
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < target; j++ {
+			if i < 1 {
+				dp[i][j] = false
+			} else if j < nums[i] {
 				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]]
 			}
 		}
 	}
-	return dp[len(nums)-1][target]
+	return dp[len(nums)-1][target-1]
 }
