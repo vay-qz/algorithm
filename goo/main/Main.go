@@ -42,6 +42,9 @@ func main() {
 
 	//nums :=[]int{1,7,4,9,2,5}
 	//println(dp.	WiggleMaxLength(nums))
-	nums1 := []int{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}
-	println(dp.WiggleMaxLength(nums1))
+	//nums1 := []int{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}
+	//println(dp.WiggleMaxLength(nums1))
+
+	nums := []int{1, 5, 11, 5}
+	println(dp.CanPartition(nums))
 }

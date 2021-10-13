@@ -451,7 +451,10 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	return dp[len(text1)][len(text2)]
 }
 
-// todo 待提交
+func CanPartition(nums []int) bool {
+	return canPartition(nums)
+}
+
 func canPartition(nums []int) bool {
 	if len(nums) == 1 {
 		return false
@@ -470,12 +473,12 @@ func canPartition(nums []int) bool {
 	}
 	var dp = make([][]bool, len(nums))
 	for i := 0; i < len(nums); i++ {
-		dp[i] = make([]bool, target)
+		dp[i] = make([]bool, target+1)
 	}
-	for i := 0; i < len(nums); i++ {
-		for j := 0; j < target; j++ {
-			if i < 1 {
-				dp[i][j] = false
+	for j := 0; j <= target; j++ {
+		for i := 0; i < len(nums); i++ {
+			if i == 0 {
+				dp[i][j] = nums[0] == j
 			} else if j < nums[i] {
 				dp[i][j] = dp[i-1][j]
 			} else {
@@ -483,5 +486,5 @@ func canPartition(nums []int) bool {
 			}
 		}
 	}
-	return dp[len(nums)-1][target-1]
+	return dp[len(nums)-1][target]
 }
