@@ -3,6 +3,8 @@ package main
 import "algorithm/goo/dp"
 
 func main() {
+	println(dp.LongestCommonSubsequence("abcde", "ace"))
+
 	//fmt.Println("hello world")
 	//var a = []int{2,3,2}
 	//fmt.Println(dp.Rob(a))
@@ -45,6 +47,7 @@ func main() {
 	//nums1 := []int{1, 17, 5, 10, 13, 15, 10, 5, 16, 8}
 	//println(dp.WiggleMaxLength(nums1))
 
-	nums := []int{1, 5, 11, 5}
-	println(dp.CanPartition(nums))
+	//nums := []int{1, 5, 11, 5}
+	//println(dp.CanPartition(nums))
+
 }
