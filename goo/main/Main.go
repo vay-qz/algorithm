@@ -3,7 +3,11 @@ package main
 import "algorithm/goo/dp"
 
 func main() {
-	println(dp.LongestCommonSubsequence("abcde", "ace"))
+	nums1 := []int{1}
+
+	println(dp.CoinChange(nums1, 2))
+
+	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 
 	//fmt.Println("hello world")
 	//var a = []int{2,3,2}

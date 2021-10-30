@@ -495,3 +495,65 @@ func canPartition(nums []int) bool {
 	}
 	return dp[len(nums)-1][target]
 }
+
+func FindTargetSumWays(nums []int, target int) int {
+	return findTargetSumWays(nums, target)
+}
+
+func findTargetSumWays(nums []int, target int) int {
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
+	}
+	temp := sum - target
+	if temp < 0 || temp%2 == 1 {
+		return 0
+	}
+	neg := temp / 2
+	dp := make([][]int, len(nums)+1)
+	for i := 0; i <= len(nums); i++ {
+		dp[i] = make([]int, neg+1)
+	}
+	dp[0][0] = 1
+	for i := 0; i <= len(nums); i++ {
+		for j := 0; j < neg+1; j++ {
+			if i == 0 {
+				if j == 0 {
+					dp[i][j] = 1
+				} else {
+					dp[i][j] = 0
+				}
+			} else if j < nums[i-1] {
+				dp[i][j] = dp[i-1][j]
+			} else {
+				dp[i][j] = dp[i-1][j] + dp[i-1][j-nums[i-1]]
+			}
+		}
+	}
+	return dp[len(nums)][neg]
+}
+
+func CoinChange(coins []int, amount int) int {
+	return coinChange(coins, amount)
+}
+
+func coinChange(coins []int, amount int) int {
+	if amount == 0 {
+		return 0
+	}
+	dp := make([]int, amount+1)
+	for i := 1; i <= amount; i++ {
+		min := math.MaxInt64
+		for j := 0; j < len(coins); j++ {
+			if i >= coins[j] && min > dp[i-coins[j]] && dp[i-coins[j]] != -1 {
+				min = dp[i-coins[j]] + 1
+			}
+		}
+		if min != math.MaxInt64 {
+			dp[i] = min
+		} else {
+			dp[i] = -1
+		}
+	}
+	return dp[amount]
+}
