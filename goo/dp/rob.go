@@ -3,6 +3,7 @@ package dp
 import (
 	"math"
 	"sort"
+	"strings"
 )
 
 func Rob(nums []int) int {
@@ -556,4 +557,37 @@ func coinChange(coins []int, amount int) int {
 		}
 	}
 	return dp[amount]
+}
+
+func FindMaxForm(strs []string, m int, n int) int {
+	return findMaxForm(strs, m, n)
+}
+
+func findMaxForm(strs []string, m int, n int) int {
+	dp := make([][][]int, len(strs)+1)
+	for i := 0; i < len(strs)+1; i++ {
+		dp[i] = make([][]int, m+1)
+		for j := 0; j <= m; j++ {
+			dp[i][j] = make([]int, n+1)
+		}
+	}
+
+	for i := 1; i <= len(strs); i++ {
+		i0 := strings.Count(strs[i-1], "0")
+		i1 := len(strs[i-1]) - i0
+		for j := 0; j <= m; j++ {
+			for k := 0; k <= n; k++ {
+				if j >= i0 && k >= i1 {
+					dp[i][j][k] = biger(dp[i-1][j-i0][k-i1]+1, dp[i-1][j][k])
+				} else {
+					dp[i][j][k] = dp[i-1][j][k]
+				}
+			}
+		}
+	}
+	return dp[len(strs)][m][n]
+}
+
+func change(amount int, coins []int) int {
+
 }
