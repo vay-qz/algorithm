@@ -588,6 +588,18 @@ func findMaxForm(strs []string, m int, n int) int {
 	return dp[len(strs)][m][n]
 }
 
-func change(amount int, coins []int) int {
+func Change(amount int, coins []int) int {
+	return change(amount, coins)
+}
 
+func change(amount int, coins []int) int {
+	dp := make([]int, amount+1)
+	dp[0] = 1
+
+	for _, coin := range coins {
+		for i := coin; i <= amount; i++ {
+			dp[i] += dp[i-coin]
+		}
+	}
+	return dp[amount]
 }

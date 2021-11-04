@@ -3,9 +3,9 @@ package main
 import "algorithm/goo/dp"
 
 func main() {
-	nums1 := []string{"10", "0001", "111001", "1", "0"}
+	nums1 := []int{1, 2, 5}
 
-	println(dp.FindMaxForm(nums1, 5, 3))
+	println(dp.Change(5, nums1))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 
