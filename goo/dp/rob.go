@@ -603,3 +603,66 @@ func change(amount int, coins []int) int {
 	}
 	return dp[amount]
 }
+
+func combinationSum4(nums []int, target int) int {
+	dp := make([]int, target+1)
+	dp[0] = 1
+	for i := 1; i <= target; i++ {
+		for j := 0; j < len(nums); j++ {
+			if nums[j] <= i {
+				dp[i] += dp[i-nums[j]]
+			}
+		}
+	}
+	return dp[target]
+}
+
+func change1(amount int, coins []int) int {
+	dp := make([]int, amount+1)
+	dp[0] = 1
+	for _, coin := range coins {
+		for i := coin; i <= amount; i++ {
+			dp[i] += dp[i-coin]
+		}
+	}
+	return dp[amount]
+}
+
+func maxProfit(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	if len(prices) == 1 {
+		if prices[0] > 0 {
+			return prices[0]
+		} else {
+			return 0
+		}
+	}
+	diff := make([]int, len(prices)-1)
+	for i := 0; i < len(prices)-1; i++ {
+		diff[i] = prices[i+1] - prices[i]
+	}
+	dp := make([]int, len(diff))
+	if diff[0] > 0 {
+		dp[0] = diff[0]
+	} else {
+		dp[0] = 0
+	}
+	for i := 1; i < len(diff); i++ {
+		if i >= 2 {
+			if diff[i] >= 0 {
+				dp[i] = biger(dp[i-1], dp[i-2]+diff[i])
+			} else {
+				dp[i] = dp[i-1]
+			}
+		} else {
+			if diff[i] >= 0 {
+				dp[i] = biger(dp[i-1], diff[i])
+			} else {
+				dp[i] = dp[i-1]
+			}
+		}
+	}
+	return dp[len(prices)-2]
+}
