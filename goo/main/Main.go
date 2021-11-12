@@ -3,9 +3,13 @@ package main
 import "algorithm/goo/dp"
 
 func main() {
-	nums1 := []int{1, 2, 5}
 
-	println(dp.Change(5, nums1))
+	dict := []string{"apple", "pen"}
+	print(dp.WordBreak("applepenapple", dict))
+
+	//nums1 := []int{1, 2, 5}
+	//
+	//println(dp.Change(5, nums1))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 

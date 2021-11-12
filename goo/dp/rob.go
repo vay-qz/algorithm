@@ -603,3 +603,31 @@ func change(amount int, coins []int) int {
 	}
 	return dp[amount]
 }
+
+func WordBreak(s string, wordDict []string) bool {
+	return wordBreak(s, wordDict)
+}
+
+func wordBreak(s string, wordDict []string) bool {
+	dp := make([]bool, len(s)+1)
+	dp[0] = true
+	for i := 1; i <= len(s); i++ {
+		for j := 0; j < i; j++ {
+			s2 := s[j:i]
+			if contains(s2, wordDict) && dp[j] {
+				dp[i] = dp[j]
+				break
+			}
+		}
+	}
+	return dp[len(s)]
+}
+
+func contains(s string, wordDict []string) bool {
+	for _, word := range wordDict {
+		if strings.EqualFold(s, word) {
+			return true
+		}
+	}
+	return false
+}
