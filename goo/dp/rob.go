@@ -628,41 +628,20 @@ func change1(amount int, coins []int) int {
 	return dp[amount]
 }
 
+func MaxProfit(prices []int) int {
+	return maxProfit(prices)
+}
+
 func maxProfit(prices []int) int {
-	if len(prices) == 0 {
+	if len(prices) < 2 {
 		return 0
 	}
-	if len(prices) == 1 {
-		if prices[0] > 0 {
-			return prices[0]
-		} else {
-			return 0
-		}
+	dp := make([][3]int, len(prices))
+	dp[0][0] = 0 - prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = biger(dp[i-1][2]-prices[i], dp[i-1][0])
+		dp[i][1] = dp[i-1][0] + prices[i]
+		dp[i][2] = biger(dp[i-1][2], dp[i-1][1])
 	}
-	diff := make([]int, len(prices)-1)
-	for i := 0; i < len(prices)-1; i++ {
-		diff[i] = prices[i+1] - prices[i]
-	}
-	dp := make([]int, len(diff))
-	if diff[0] > 0 {
-		dp[0] = diff[0]
-	} else {
-		dp[0] = 0
-	}
-	for i := 1; i < len(diff); i++ {
-		if i >= 2 {
-			if diff[i] >= 0 {
-				dp[i] = biger(dp[i-1], dp[i-2]+diff[i])
-			} else {
-				dp[i] = dp[i-1]
-			}
-		} else {
-			if diff[i] >= 0 {
-				dp[i] = biger(dp[i-1], diff[i])
-			} else {
-				dp[i] = dp[i-1]
-			}
-		}
-	}
-	return dp[len(prices)-2]
+	return biger(dp[len(prices)-1][1], dp[len(prices)-1][2])
 }

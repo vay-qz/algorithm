@@ -1,11 +1,15 @@
 package main
 
-import "algorithm/goo/dp"
+import (
+	"algorithm/goo/dp"
+)
 
 func main() {
-	nums1 := []int{1, 2, 5}
+	nums1 := []int{6, 1, 3, 2, 4, 7}
 
-	println(dp.Change(5, nums1))
+	println(dp.MaxProfit(nums1))
+
+	//println(stringss.DetectCapitalUse("isA"))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 
