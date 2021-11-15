@@ -5,9 +5,9 @@ import (
 )
 
 func main() {
-	nums1 := []int{6, 1, 3, 2, 4, 7}
+	nums1 := []int{2, 1}
 
-	println(dp.MaxProfit(nums1))
+	println(dp.MaxProfit(1, nums1))
 
 	//println(stringss.DetectCapitalUse("isA"))
 
