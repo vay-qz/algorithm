@@ -1,15 +1,15 @@
 package main
 
-import "algorithm/goo/dp"
+import (
+	"algorithm/goo/dp"
+)
 
 func main() {
+	nums1 := []int{2, 1}
 
-	dict := []string{"apple", "pen"}
-	print(dp.WordBreak("applepenapple", dict))
+	println(dp.MaxProfit(1, nums1))
 
-	//nums1 := []int{1, 2, 5}
-	//
-	//println(dp.Change(5, nums1))
+	//println(stringss.DetectCapitalUse("isA"))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 

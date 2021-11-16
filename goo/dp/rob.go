@@ -357,13 +357,6 @@ func lengthOfLIS(nums []int) int {
 	return max
 }
 
-func biger(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-
 func FindLongestChain(pairs [][]int) int {
 	return findLongestChain(pairs)
 }
@@ -656,41 +649,96 @@ func change1(amount int, coins []int) int {
 	return dp[amount]
 }
 
-func maxProfit(prices []int) int {
-	if len(prices) == 0 {
+func MaxProfit(k int, prices []int) int {
+	return maxProfit(k, prices)
+}
+
+func maxProfit2(prices []int) int {
+	if len(prices) < 2 {
 		return 0
 	}
-	if len(prices) == 1 {
-		if prices[0] > 0 {
-			return prices[0]
-		} else {
-			return 0
+	dp := make([][3]int, len(prices))
+	dp[0][0] = 0 - prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = biger(dp[i-1][2]-prices[i], dp[i-1][0])
+		dp[i][1] = dp[i-1][0] + prices[i]
+		dp[i][2] = biger(dp[i-1][2], dp[i-1][1])
+	}
+	return biger(dp[len(prices)-1][1], dp[len(prices)-1][2])
+}
+
+func maxProfit3(prices []int, fee int) int {
+	if len(prices) < 2 {
+		return 0
+	}
+	dp := make([][2]int, len(prices))
+	dp[0][0] = 0 - prices[0] - fee
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = biger(dp[i-1][1]-prices[i]-fee, dp[i-1][0])
+		dp[i][1] = biger(dp[i-1][1], dp[i-1][0]+prices[i])
+	}
+	return dp[len(prices)-1][1]
+}
+
+func maxProfit4(prices []int) int {
+	if len(prices) < 2 {
+		return 0
+	}
+	dp := make([][4]int, len(prices))
+	dp[0][0] = -prices[0]
+	dp[0][2] = -prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = biger(dp[i-1][0], -prices[i])
+		dp[i][1] = biger(dp[i-1][1], dp[i-0][0]+prices[i])
+		dp[i][2] = biger(dp[i-1][2], dp[i-1][1]-prices[i])
+		dp[i][3] = biger(dp[i-1][3], dp[i-1][2]+prices[i])
+	}
+	return dp[len(prices)-1][3]
+}
+
+func maxProfit(k int, prices []int) int {
+	if len(prices) < 2 {
+		return 0
+	}
+	k = lower(k, len(prices)/2)
+	buy := make([][]int, len(prices))
+	sell := make([][]int, len(prices))
+	for i := 0; i < len(prices); i++ {
+		buy[i] = make([]int, k+1)
+		sell[i] = make([]int, k+1)
+	}
+	buy[0][0] = -prices[0]
+	for i := 1; i <= k; i++ {
+		buy[0][i] = math.MinInt64 / 2
+		sell[0][i] = math.MinInt64 / 2
+	}
+	for i := 1; i < len(prices); i++ {
+		for j := 0; j <= k; j++ {
+			buy[i][j] = biger(buy[i-1][j], sell[i-1][j]-prices[i])
+			if j >= 1 {
+				sell[i][j] = biger(sell[i-1][j], buy[i-1][j-1]+prices[i])
+			}
 		}
 	}
-	diff := make([]int, len(prices)-1)
-	for i := 0; i < len(prices)-1; i++ {
-		diff[i] = prices[i+1] - prices[i]
-	}
-	dp := make([]int, len(diff))
-	if diff[0] > 0 {
-		dp[0] = diff[0]
-	} else {
-		dp[0] = 0
-	}
-	for i := 1; i < len(diff); i++ {
-		if i >= 2 {
-			if diff[i] >= 0 {
-				dp[i] = biger(dp[i-1], dp[i-2]+diff[i])
-			} else {
-				dp[i] = dp[i-1]
-			}
-		} else {
-			if diff[i] >= 0 {
-				dp[i] = biger(dp[i-1], diff[i])
-			} else {
-				dp[i] = dp[i-1]
-			}
+	max := sell[0][0]
+	for i := 1; i <= k; i++ {
+		if sell[len(prices)-1][i] > max {
+			max = sell[len(prices)-1][i]
 		}
 	}
-	return dp[len(prices)-2]
+	return max
+}
+
+func biger(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+func lower(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
 }
