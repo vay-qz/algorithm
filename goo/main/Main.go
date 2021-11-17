@@ -5,9 +5,8 @@ import (
 )
 
 func main() {
-	nums1 := []int{2, 1}
 
-	println(dp.MaxProfit(1, nums1))
+	println(dp.MinDistance("intention", "execution"))
 
 	//println(stringss.DetectCapitalUse("isA"))
 
