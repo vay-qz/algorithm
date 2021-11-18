@@ -6,7 +6,7 @@ import (
 
 func main() {
 
-	println(dp.MinDistance("intention", "execution"))
+	println(dp.MinSteps(8))
 
 	//println(stringss.DetectCapitalUse("isA"))
 
