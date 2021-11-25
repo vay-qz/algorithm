@@ -1,14 +1,8 @@
 package main
 
-import (
-	"algorithm/goo/dp"
-)
-
 func main() {
 
-	println(dp.MinSteps(8))
-
-	//println(stringss.DetectCapitalUse("isA"))
+	//println(string.DetectCapitalUse("isA"))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))
 

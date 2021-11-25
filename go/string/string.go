@@ -1,4 +1,4 @@
-package stringss
+package string
 
 func DetectCapitalUse(word string) bool {
 	return detectCapitalUse(word)
