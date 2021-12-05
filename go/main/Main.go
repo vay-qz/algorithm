@@ -1,7 +1,9 @@
 package main
 
-func main() {
+import "algorithm/goo/greedy"
 
+func main() {
+	greedy.PartitionLabels("ababcbacadefegdehijhklij")
 	//println(string.DetectCapitalUse("isA"))
 
 	//println(dp.LongestCommonSubsequence("abcde", "ace"))

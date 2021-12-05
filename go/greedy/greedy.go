@@ -67,3 +67,58 @@ func isSubsequence(s string, t string) bool {
 	}
 	return false
 }
+
+func findContentChildren(g []int, s []int) int {
+	sort.Ints(g)
+	sort.Ints(s)
+	sum := 0
+	j := 0
+	for i := 0; i < len(g); i++ {
+		for ; j < len(s); j++ {
+			if s[j] >= g[i] {
+				sum++
+				j++
+				break
+			}
+		}
+	}
+	return sum
+}
+
+func biger(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+func PartitionLabels(s string) []int {
+	return partitionLabels(s)
+}
+
+func partitionLabels(s string) []int {
+	if len(s) == 1 {
+		return []int{1}
+	}
+	res := []int{}
+	begin := 0
+	end := 0
+	for i := 0; i < len(s); i++ {
+		i2 := findEnd(s, s[i])
+		end = biger(i2, end)
+		if i == end {
+			res = append(res, end-begin+1)
+			begin = end + 1
+		}
+	}
+	return res
+}
+
+func findEnd(s string, c uint8) int {
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == c {
+			return i
+		}
+	}
+	return -1
+}
