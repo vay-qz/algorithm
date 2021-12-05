@@ -1,6 +1,6 @@
 package main
 
-import "algorithm/goo/greedy"
+import "algorithm/go/greedy"
 
 func main() {
 	greedy.PartitionLabels("ababcbacadefegdehijhklij")
