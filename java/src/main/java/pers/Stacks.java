@@ -3,7 +3,7 @@ package pers;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Stack {
+public class Stacks {
 
     public boolean isValid(String s) {
         Map<Character, Character> ma = new HashMap<>();

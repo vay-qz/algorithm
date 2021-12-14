@@ -99,8 +99,8 @@ public class Dfs {
                 change(board, stack, board.length - 1, i);
             }
         }
-        for (int i = 1; i < board.length; i++) {
-            for (int j = 1; j < board[0].length; j++) {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j] == 'O') {
                     board[i][j] = 'X';
                 }
@@ -114,7 +114,7 @@ public class Dfs {
     private void change(char[][] board, Stack<int[]> stack, int i, int j) {
         int[] xx = {1, 0, -1, 0};
         int[] yy = {0, -1, 0, 1};
-        stack.push(new int[]{i, 0});
+        stack.push(new int[]{i, j});
         while (!stack.isEmpty()) {
             int[] pop = stack.pop();
             int x = pop[0];
@@ -136,6 +136,6 @@ public class Dfs {
      * @return
      */
     public int findCircleNum(int[][] isConnected) {
-
+        return 1;
     }
 }
