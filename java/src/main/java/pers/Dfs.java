@@ -136,6 +136,35 @@ public class Dfs {
      * @return
      */
     public int findCircleNum(int[][] isConnected) {
-        return 1;
+        int sum = 0;
+        Stack<int[]> stack = new Stack<>();
+        for (int i = 0; i < isConnected.length; i++) {
+            for (int j = 0; j < isConnected[0].length; j++) {
+                if (isConnected[i][j] == 1) {
+                    stack.push(new int[]{i, j});
+                    sum++;
+                    while(!stack.isEmpty()) {
+                        int[] pop = stack.pop();
+                        int x = pop[0];
+                        int y = pop[1];
+                        isConnected[x][y] = 0;
+                        for (int k = 0; k < isConnected[0].length; k++) {
+                            if (isConnected[x][k] == 1) {
+                                stack.push(new int[]{x, k});
+                                isConnected[x][k] = 2;
+                            }
+                        }
+                        for (int k = 0; k < isConnected.length; k++) {
+                            if (isConnected[k][y] == 1) {
+                                stack.push(new int[]{x, k});
+                                isConnected[x][k] = 2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return sum;
     }
+
 }
