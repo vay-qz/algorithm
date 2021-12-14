@@ -1,5 +1,7 @@
 package pers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -165,6 +167,67 @@ public class Dfs {
             }
         }
         return sum;
+    }
+
+    /**417
+     * @param heights
+     * @return
+     */
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int[][] tpy = new int[heights.length][heights[0].length];
+        int[][] dxy = new int[heights.length][heights[0].length];
+        // 上边界
+        for (int i = 0; i < heights.length; i++) {
+            fill(heights, tpy, 0, i);
+        }
+        // 左边界
+        for (int i = 0; i < heights.length; i++) {
+            fill(heights, tpy, i, 0);
+        }
+        // 下边界
+        for (int i = 0; i < heights.length; i++) {
+            fill(heights, dxy, heights[0].length - 1, i);
+        }
+        // 右边界
+        for (int i = 0; i < heights.length; i++) {
+            fill(heights, dxy, i, heights[0].length - 1);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for (int i = 0; i < heights.length; i++) {
+            for (int j = 0; j < heights[0].length; j++) {
+                if (tpy[i][j] == 1 && dxy[i][j] == 1) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(i);
+                    list.add(j);
+                    res.add(list);
+                }
+            }
+        }
+        return res;
+    }
+
+    private void fill(int[][] heights, int[][] tpy, int i, int j) {
+        Stack<int[]> stack = new Stack<>();
+        int[] xx = {1, 0, -1, 0};
+        int[] yy = {0, -1, 0, 1};
+        stack.push(new int[]{i, j});
+        while (!stack.isEmpty()) {
+            int[] pop = stack.pop();
+            int x = pop[0];
+            int y = pop[1];
+            if (tpy[x][y] == 1) {
+                continue;
+            }
+            tpy[x][y] = 1;
+            for (int k = 0; k < 4; k++) {
+                if (x + xx[k] >= 0 && x + xx[k] < heights.length &&
+                        y + yy[k] >= 0 && y + yy[k] < heights[0].length &&
+                        tpy[x][y] == 0 &&
+                        heights[x + xx[k]][y + yy[k]] >= heights[x][y]) {
+                    stack.push(new int[]{x + xx[k], y + yy[k]});
+                }
+            }
+        }
     }
 
 }
