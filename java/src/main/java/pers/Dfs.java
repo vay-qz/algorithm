@@ -45,6 +45,10 @@ public class Dfs {
         return max;
     }
 
+    /**200
+     * @param grid
+     * @return
+     */
     public int numIslands(char[][] grid) {
         int[] xx = {1, 0, -1, 0};
         int[] yy = {0, -1, 0, 1};
@@ -126,4 +130,12 @@ public class Dfs {
         }
     }
 
+
+    /**547
+     * @param isConnected
+     * @return
+     */
+    public int findCircleNum(int[][] isConnected) {
+
+    }
 }
