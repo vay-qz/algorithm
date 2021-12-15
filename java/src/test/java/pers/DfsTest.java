@@ -39,4 +39,29 @@ public class DfsTest {
         }
     }
 
+    @Test
+    public void pacificAtlantic() {
+        Dfs dfs = new Dfs();
+        int[][] s = {
+                {1,2,2,3,5},
+                {3,2,3,4,4},
+                {2,4,5,3,1},
+                {6,7,1,4,5},
+                {5,1,1,2,4}
+        };
+        dfs.pacificAtlantic(s);
+        int[][] s2 = {
+                {1,1},
+                {1,1},
+                {1,1}
+        };
+        dfs.pacificAtlantic(s2);
+        int[][] s3 = {
+                {3,3,3,3,3,3},
+                {3,0,3,3,0,3},
+                {3,3,3,3,3,3}
+        };
+        dfs.pacificAtlantic(s3);
+    }
+
 }
