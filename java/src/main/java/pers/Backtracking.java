@@ -1,5 +1,6 @@
 package pers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,26 @@ public class Backtracking {
             put('8', "tuv");
             put('9', "wxyz");
         }};
-
+        List<String> res = new ArrayList<>();
+        if (digits.length() == 0) {
+            return res;
+        }
+        back(res, phoneMap, digits, 0, new StringBuilder());
+        return res;
     }
+
+    private void back(List<String> res, Map<Character, String> phoneMap, String digits, int i, StringBuilder builder) {
+        if (builder.length() == digits.length()) {
+            res.add(builder.toString());
+            return;
+        }
+        char c = digits.charAt(i);
+        String s = phoneMap.get(c);
+        for (char cc : s.toCharArray()) {
+            builder.append(cc);
+            back(res, phoneMap, digits, i + 1, builder);
+            builder.deleteCharAt(i);
+        }
+    }
+
 }
