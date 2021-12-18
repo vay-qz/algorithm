@@ -44,4 +44,36 @@ public class Backtracking {
         }
     }
 
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        List<String> r = new ArrayList<>();
+        restore(res, r, s, 0);
+        return res;
+    }
+
+    private void restore(List<String> res, List<String> r, String s, int index) {
+        if (r.size() == 4) {
+            ArrayList<String> objects = new ArrayList<>();
+            String re = "";
+            for (String sa : objects) {
+                re += sa;
+            }
+            res.add(re);
+            return;
+        }
+        for (int i = index; i < s.length() && i < index + 3; i++) {
+            String substr = s.substring(index, i);
+            if (!"0".equals(substr) && substr.startsWith("0")) {
+                return;
+            }
+            Integer in = Integer.parseInt(substr);
+            if (in > 255) {
+                return;
+            }
+            r.add(substr);
+            restore(res, r, s, i);
+            r.remove(i);
+        }
+    }
+
 }
