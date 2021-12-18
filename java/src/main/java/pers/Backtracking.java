@@ -53,15 +53,16 @@ public class Backtracking {
 
     private void restore(List<String> res, List<String> r, String s, int index) {
         if (r.size() == 4) {
-            ArrayList<String> objects = new ArrayList<>();
             String re = "";
-            for (String sa : objects) {
-                re += sa;
+            for (String sa : r) {
+                re += sa + ".";
             }
-            res.add(re);
+            if (re.length() == s.length() + 4) {
+                res.add(re.substring(0, re.length() - 1));
+            }
             return;
         }
-        for (int i = index; i < s.length() && i < index + 3; i++) {
+        for (int i = index + 1; i <= s.length() && i < index + 4; i++) {
             String substr = s.substring(index, i);
             if (!"0".equals(substr) && substr.startsWith("0")) {
                 return;
@@ -72,7 +73,7 @@ public class Backtracking {
             }
             r.add(substr);
             restore(res, r, s, i);
-            r.remove(i);
+            r.remove(r.size() - 1);
         }
     }
 
