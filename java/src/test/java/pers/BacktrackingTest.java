@@ -27,4 +27,15 @@ public class BacktrackingTest {
     public void restoreIpAddresses() {
         backtracking.restoreIpAddresses("25525511135");
     }
+
+    @Test
+    public void exist() {
+        char[][] board = {
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+        };
+        backtracking.exist(board, "ABCCED");
+    }
+
 }

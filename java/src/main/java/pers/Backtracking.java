@@ -1,5 +1,7 @@
 package pers;
 
+import pers.struct.TreeNode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +77,52 @@ public class Backtracking {
             restore(res, r, s, i);
             r.remove(r.size() - 1);
         }
+    }
+
+    public boolean exist(char[][] board, String word) {
+        boolean[][] visited;
+        int[] xx = {1, 0, -1, 0};
+        int[] yy = {0, -1, 0, 1};
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    visited = new boolean[board.length][board[0].length];
+                    visited[i][j] = true;
+                    boolean res = exist(board, i, j, word, 1, visited, xx, yy);
+                    if (res) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean exist(char[][] board, int i, int j, String word, int i1, boolean[][] visited, int[] xx, int[] yy) {
+        if (i1 == word.length()) {
+            return true;
+        }
+        char c = word.charAt(i1);
+        for (int k = 0; k < 4; k++) {
+            int x = i + xx[k];
+            int y = j + yy[k];
+            if (x >= 0 && x < board.length &&
+                    y >= 0 && y < board[i].length &&
+                    board[x][y] == c &&
+                    !visited[x][y]) {
+                visited[x][y] = true;
+                boolean exist = exist(board, x, y, word, i1 + 1, visited, xx, yy);
+                if (exist) {
+                    return true;
+                }
+                visited[x][y] = false;
+            }
+        }
+        return false;
+    }
+
+    public List<String> binaryTreePaths(TreeNode root) {
+
     }
 
 }
