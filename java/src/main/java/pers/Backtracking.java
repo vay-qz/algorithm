@@ -2,10 +2,7 @@ package pers;
 
 import pers.struct.TreeNode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Backtracking {
 
@@ -121,7 +118,207 @@ public class Backtracking {
         return false;
     }
 
+    /**257
+     * @param root
+     * @return
+     */
     public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        binaryTreePaths(res, root, temp);
+        return res;
+    }
+
+    private void binaryTreePaths(List<String> res, TreeNode root, List<Integer> temp) {
+        if (root.left == null && root.right == null) {
+            String s = "";
+            for (Integer t : temp) {
+                s += t;
+                s += "->";
+            }
+            s += root.val;
+            res.add(s);
+        }
+        if (root.left != null) {
+            temp.add(root.val);
+            binaryTreePaths(res, root.left, temp);
+            temp.remove(temp.size() - 1);
+        }
+        if (root.right != null) {
+            temp.add(root.val);
+            binaryTreePaths(res, root.right, temp);
+            temp.remove(temp.size() - 1);
+        }
+    }
+
+    /**77
+     * @param n
+     * @param k
+     * @return
+     */
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        combine(res, temp, 0, n, k);
+        return res;
+    }
+
+    private void combine(List<List<Integer>> res, List<Integer> temp, int i, int n, int k) {
+        if (temp.size() == k) {
+            res.add(new ArrayList<>(temp));
+        }
+        for (int t = i + 1; t <= n; t++) {
+            temp.add(t);
+            combine(res, temp, t, n, k);
+            temp.remove(temp.size() - 1);
+        }
+    }
+
+    /**39
+     * todo 未去重
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        Arrays.sort(candidates);
+        combinationSum(res, temp, 0, candidates, target);
+        return res;
+    }
+
+    private void combinationSum(List<List<Integer>> res, List<Integer> temp, int sum, int[] candidates, int target) {
+        if (sum == target) {
+            res.add(new ArrayList<>(temp));
+        }
+        for (int i = 0; i < candidates.length; i++) {
+            if (sum + candidates[i] <= target) {
+                temp.add(candidates[i]);
+                combinationSum(res, temp, sum + candidates[i], candidates, target);
+                temp.remove(temp.size() - 1);
+            } else {
+                break;
+            }
+        }
+    }
+
+    /**78
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        subsets(res, temp, -1, nums);
+        return res;
+    }
+
+    private void subsets(List<List<Integer>> res, List<Integer> temp, int i, int[] nums) {
+        res.add(new ArrayList<>(temp));
+        if (nums.length == i) {
+            return;
+        }
+        for (int j = i + 1; j < nums.length; j++) {
+            temp.add(nums[j]);
+            subsets(res, temp, j, nums);
+            temp.remove(temp.size() - 1);
+        }
+    }
+
+    /**90
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        Arrays.sort(nums);
+        subsetsWithDup(res, temp, -1, nums, visited);
+        return res;
+    }
+
+    private void subsetsWithDup(List<List<Integer>> res, List<Integer> temp, int i, int[] nums, boolean[] visited) {
+        res.add(new ArrayList<>(temp));
+        if (nums.length == i) {
+            return;
+        }
+        for (int j = i + 1; j < nums.length; j++) {
+            if (j > 0 && nums[j] == nums[j - 1] && !visited[j - 1]) {
+                continue;
+            }
+            visited[j] = true;
+            temp.add(nums[j]);
+            subsetsWithDup(res, temp, j, nums, visited);
+            temp.remove(temp.size() - 1);
+            visited[j] = false;
+        }
+    }
+
+    /**131
+     * @param s
+     * @return
+     */
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        partition(res, temp, s, 0);
+        return res;
+    }
+
+    private void partition(List<List<String>> res, List<String> temp, String s, int i) {
+        if (i == s.length()) {
+            res.add(new ArrayList<>(temp));
+        }
+        for (int j = i + 1; j <= s.length(); j++) {
+            String substring = s.substring(i, j);
+            if (isHw(substring)) {
+                temp.add(substring);
+                partition(res, temp, s, j);
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+
+    private boolean isHw(String substring) {
+        int head = 0;
+        int tail = substring.length() - 1;
+        while (true) {
+            if (head >= tail) {
+                break;
+            }
+
+            if (substring.charAt(head) != substring.charAt(tail)) {
+                return false;
+            }
+
+            head++;
+            tail--;
+        }
+        return true;
+    }
+
+    /**37
+     * @param board
+     */
+    public void solveSudoku(char[][] board) {
+        fill(board, 0, 0);
+    }
+
+    private boolean fill(char[][] board, int p, int q) {
+        for (int i = p; i < 9; i++) {
+            for (int j = q; j < 9; j++) {
+                if ()
+            }
+        }
+    }
+
+    /**51
+     * @param n
+     * @return
+     */
+    public List<List<String>> solveNQueens(int n) {
 
     }
 

@@ -38,4 +38,25 @@ public class BacktrackingTest {
         backtracking.exist(board, "ABCCED");
     }
 
+    @Test
+    public void combine() {
+        backtracking.combine(4, 2);
+    }
+
+    @Test
+    public void combinationSum() {
+        int[] s = {2,3,6,7};
+        backtracking.combinationSum(s, 7);
+    }
+
+    @Test
+    public void partition() {
+        backtracking.partition("aab");
+    }
+
+    @Test
+    public void subsetsWithDup() {
+        int[] s = {1,2,2};
+        backtracking.subsetsWithDup(s);
+    }
 }
