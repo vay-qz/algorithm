@@ -45,8 +45,8 @@ public class BacktrackingTest {
 
     @Test
     public void combinationSum() {
-        int[] s = {2,3,6,7};
-        backtracking.combinationSum(s, 7);
+        int[] s = {2,7,6,3,5,1};
+        backtracking.combinationSum(s, 9);
     }
 
     @Test

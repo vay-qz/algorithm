@@ -202,7 +202,7 @@ public class Backtracking {
     }
 
     /**39
-     * todo 未去重
+     *
      * @param candidates
      * @param target
      * @return
@@ -211,18 +211,18 @@ public class Backtracking {
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> temp = new ArrayList<>();
         Arrays.sort(candidates);
-        combinationSum(res, temp, 0, candidates, target);
+        combinationSum(res, temp, 0, candidates, target, 0);
         return res;
     }
 
-    private void combinationSum(List<List<Integer>> res, List<Integer> temp, int sum, int[] candidates, int target) {
+    private void combinationSum(List<List<Integer>> res, List<Integer> temp, int sum, int[] candidates, int target, int head) {
         if (sum == target) {
             res.add(new ArrayList<>(temp));
         }
-        for (int i = 0; i < candidates.length; i++) {
+        for (int i = head; i < candidates.length; i++) {
             if (sum + candidates[i] <= target) {
                 temp.add(candidates[i]);
-                combinationSum(res, temp, sum + candidates[i], candidates, target);
+                combinationSum(res, temp, sum + candidates[i], candidates, target, i);
                 temp.remove(temp.size() - 1);
             } else {
                 break;
@@ -326,27 +326,6 @@ public class Backtracking {
         return true;
     }
 
-    /**37
-     * @param board
-     */
-    public void solveSudoku(char[][] board) {
-        fill(board, 0, 0);
-    }
-
-    private boolean fill(char[][] board, int p, int q) {
-        for (int i = p; i < 9; i++) {
-            for (int j = q; j < 9; j++) {
-                if ()
-            }
-        }
-    }
-
-    /**51
-     * @param n
-     * @return
-     */
-    public List<List<String>> solveNQueens(int n) {
-
     /**47
      * @param nums
      * @return
@@ -376,6 +355,21 @@ public class Backtracking {
                 visited[i] = false;
             }
         }
+    }
+
+    /**37
+     * @param board
+     */
+    public void solveSudoku(char[][] board) {
+    }
+
+
+    /**51
+     * @param n
+     * @return
+     */
+    public List<List<String>> solveNQueens(int n) {
+        return null;
     }
 
 }
