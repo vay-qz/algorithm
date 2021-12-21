@@ -118,6 +118,33 @@ public class Backtracking {
         return false;
     }
 
+    /**全排列
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        permute(res, nums, temp, visited);
+        return res;
+    }
+
+    private void permute(List<List<Integer>> res, int[] nums, List<Integer> temp, boolean[] visited) {
+        if (temp.size() == nums.length) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] == false) {
+                visited[i] = true;
+                temp.add(nums[i]);
+                permute(res, nums, temp, visited);
+                temp.remove(temp.size() - 1);
+                visited[i] = false;
+            }
+        }
+    }
     /**257
      * @param root
      * @return
@@ -320,6 +347,35 @@ public class Backtracking {
      */
     public List<List<String>> solveNQueens(int n) {
 
+    /**47
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        List<Integer> temp = new ArrayList<>();
+        Arrays.sort(nums);
+        permuteUnique(res, nums, visited, temp);
+        return res;
+    }
+
+    private void permuteUnique(List<List<Integer>> res, int[] nums, boolean[] visited, List<Integer> temp) {
+        if (temp.size() == nums.length) {
+            res.add(new ArrayList<>(temp));
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (!visited[i]) {
+                if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
+                    continue;
+                }
+                visited[i] = true;
+                temp.add(nums[i]);
+                permuteUnique(res, nums, visited, temp);
+                temp.remove(temp.size() - 1);
+                visited[i] = false;
+            }
+        }
     }
 
 }
