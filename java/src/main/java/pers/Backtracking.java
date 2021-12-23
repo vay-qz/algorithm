@@ -424,6 +424,42 @@ public class Backtracking {
      * @param board
      */
     public void solveSudoku(char[][] board) {
+        solveSudoku(board, 0, 0);
+    }
+
+    private boolean solveSudoku(char[][] board, int i, int j) {
+        for (int p = i; p < board.length; i++) {
+            for (int q = j; q < board[0].length; j++) {
+                if (board[i][j] == '.') {
+                    boolean[] selected = make(board, p, q);
+                    for (int k = 1; k < 10; k++) {
+                        if (selected[k]) {
+                            board[p][q] = (char) ('a' + k);
+                            if (solveSudoku(board, i, j)) {
+                                return true;
+                            }
+                        }
+                    }
+                    board[p][q] = '.';
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean[] make(char[][] board, int p, int q) {
+        boolean[] res = new boolean[10];
+        for (int i = 0; i < 10; i++) {
+            res[board[i][p] - 'a'] = true;
+            res[board[p][i] - 'a'] = true;
+        }
+        for (int i = p / 3; i < (p/3 + 3); i++) {
+            for (int j = q / 3; j < (q/3 + 3); j++) {
+                res[board[i][j] - 'a'] = true;
+            }
+        }
+        return res;
 
     }
 
