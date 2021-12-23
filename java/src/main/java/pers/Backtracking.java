@@ -230,6 +230,69 @@ public class Backtracking {
         }
     }
 
+    /**40
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        Arrays.sort(candidates);
+        boolean[] visited = new boolean[candidates.length];
+        combinationSum2(candidates, target, res, temp, 0, 0, visited);
+        return res;
+    }
+
+    private void combinationSum2(int[] candidates, int target, List<List<Integer>> res, List<Integer> temp, int sum, int begin, boolean[] visited) {
+        if (sum == target) {
+            res.add(new ArrayList<>(temp));
+        }
+        for (int i = begin; i < candidates.length; i++) {
+            if (i > 0 && candidates[i] == candidates[i - 1] && !visited[i - 1]) {
+                continue;
+            }
+            if (sum + candidates[i] <= target) {
+                temp.add(candidates[i]);
+                visited[i] = true;
+                combinationSum2(candidates, target, res, temp, sum + candidates[i], i + 1, visited);
+                temp.remove(temp.size() - 1);
+                visited[i] = false;
+            } else {
+                break;
+            }
+        }
+    }
+
+    /**216
+     * @param k
+     * @param n
+     * @return
+     */
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        combinationSum3(res, temp, k, n, 0, 1);
+        return res;
+    }
+
+    private void combinationSum3(List<List<Integer>> res, List<Integer> temp, int k, int n, int sum, int index) {
+        if (sum == n) {
+            if (temp.size() == k) {
+                res.add(new ArrayList<>(temp));
+            }
+            return;
+        }
+        if (temp.size() > k) {
+            return;
+        }
+        for (int i = index; i < 10; i++) {
+            temp.add(i);
+            combinationSum3(res, temp, k, n, sum + i, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+
     /**78
      * @param nums
      * @return
@@ -361,6 +424,7 @@ public class Backtracking {
      * @param board
      */
     public void solveSudoku(char[][] board) {
+
     }
 
 

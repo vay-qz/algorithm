@@ -59,4 +59,15 @@ public class BacktrackingTest {
         int[] s = {1,2,2};
         backtracking.subsetsWithDup(s);
     }
+
+    @Test
+    public void combinationSum2() {
+        int[] s = {10,1,2,7,6,1,5};
+        backtracking.combinationSum2(s, 8);
+    }
+
+    @Test
+    public void combinationSum3() {
+        backtracking.combinationSum3(3, 7);
+    }
 }
