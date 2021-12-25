@@ -428,19 +428,19 @@ public class Backtracking {
     }
 
     private boolean solveSudoku(char[][] board, int i, int j) {
-        for (int p = i; p < board.length; i++) {
-            for (int q = j; q < board[0].length; j++) {
-                if (board[i][j] == '.') {
+        for (int p = i; p < 9; p++) {
+            for (int q = j; q < 9; q++) {
+                if (board[p][q] == '.') {
                     boolean[] selected = make(board, p, q);
                     for (int k = 1; k < 10; k++) {
-                        if (selected[k]) {
-                            board[p][q] = (char) ('a' + k);
-                            if (solveSudoku(board, i, j)) {
+                        if (!selected[k]) {
+                            board[p][q] = (char) ('0' + k);
+                            if (solveSudoku(board, p, q)) {
                                 return true;
                             }
+                            board[p][q] = '.';
                         }
                     }
-                    board[p][q] = '.';
                     return false;
                 }
             }
@@ -450,17 +450,22 @@ public class Backtracking {
 
     private boolean[] make(char[][] board, int p, int q) {
         boolean[] res = new boolean[10];
-        for (int i = 0; i < 10; i++) {
-            res[board[i][p] - 'a'] = true;
-            res[board[p][i] - 'a'] = true;
+        for (int i = 0; i < 9; i++) {
+            if (board[i][q] != '.') {
+                res[board[i][q] - '0'] = true;
+            }
+            if (board[p][i] != '.') {
+                res[board[p][i] - '0'] = true;
+            }
         }
-        for (int i = p / 3; i < (p/3 + 3); i++) {
-            for (int j = q / 3; j < (q/3 + 3); j++) {
-                res[board[i][j] - 'a'] = true;
+        for (int i = (p / 3) * 3; i < (p / 3 + 1) * 3; i++) {
+            for (int j = (q / 3) * 3; j < (q / 3 + 1) * 3; j++) {
+                if (board[i][j] != '.') {
+                    res[board[i][j] - '0'] = true;
+                }
             }
         }
         return res;
-
     }
 
 
@@ -469,6 +474,7 @@ public class Backtracking {
      * @return
      */
     public List<List<String>> solveNQueens(int n) {
+
         return null;
     }
 
