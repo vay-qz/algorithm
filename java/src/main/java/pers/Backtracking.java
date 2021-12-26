@@ -1,7 +1,5 @@
 package pers;
 
-import pers.struct.TreeNode;
-
 import java.util.*;
 
 public class Backtracking {

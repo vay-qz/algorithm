@@ -1,4 +1,4 @@
-package pers.struct;
+package pers;
 
 
 public class TreeNode {
