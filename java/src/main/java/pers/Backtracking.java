@@ -482,8 +482,78 @@ public class Backtracking {
      * @return
      */
     public List<List<String>> solveNQueens(int n) {
-
-        return null;
+        List<List<String>> res = new ArrayList<>();
+        String[][] map = new String[n][n];
+        solveNQueens(res, map, 0, 0);
+        return res;
     }
+
+    private void solveNQueens(List<List<String>> res, String[][] map, int row, int sum) {
+        if (sum == map.length) {
+            makeRes(res, map);
+            return;
+        }
+        for (int i = 0; i < map.length; i++) {
+            if (can(map, row, i)) {
+                map[row][i] = "Q";
+                solveNQueens(res, map, row + 1, sum + 1);
+                map[row][i] = null;
+            }
+        }
+    }
+
+    private void makeRes(List<List<String>> res, String[][] map) {
+        List<String> temp = new ArrayList<>();
+        for (int i = 0; i < map.length; i++) {
+            StringBuilder builder = new StringBuilder();
+            for (int j = 0; j < map.length; j++) {
+                if (map[i][j] == null) {
+                    builder.append(".");
+                } else {
+                    builder.append("Q");
+                }
+            }
+            temp.add(builder.toString());
+        }
+        res.add(temp);
+    }
+
+    private boolean can(String[][] map, int x, int y) {
+        int[][] ys = {{1,1},{-1,-1},{-1,1},{1,-1}};
+        for (int i = 0; i < map.length; i++) {
+            if (map[x][i] != null) {
+                return false;
+            }
+            if (map[i][y] != null) {
+                return false;
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            int p = x;
+            int q = y;
+            while (true) {
+                if (p + ys[i][0] >= 0 && p + ys[i][0] < map.length && q + ys[i][1] >= 0 && q + ys[i][1] < map.length) {
+                    if (map[p + ys[i][0]][q + ys[i][1]] == null) {
+                        p += ys[i][0];
+                        q += ys[i][1];
+                        continue;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int totalNQueens(int n) {
+        List<List<String>> res = new ArrayList<>();
+        String[][] map = new String[n][n];
+        solveNQueens(res, map, 0, 0);
+        return res.size();
+    }
+
 
 }

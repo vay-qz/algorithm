@@ -86,4 +86,10 @@ public class BacktrackingTest {
         };
         backtracking.solveSudoku(board);
     }
+
+    @Test
+    public void solveNQueens() {
+        backtracking.solveNQueens(4);
+    }
+
 }
