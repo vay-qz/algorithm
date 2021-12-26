@@ -424,28 +424,36 @@ public class Backtracking {
      * @param board
      */
     public void solveSudoku(char[][] board) {
-        solveSudoku(board, 0, 0);
-    }
-
-    private boolean solveSudoku(char[][] board, int i, int j) {
-        for (int p = i; p < 9; p++) {
-            for (int q = j; q < 9; q++) {
-                if (board[p][q] == '.') {
-                    boolean[] selected = make(board, p, q);
-                    for (int k = 1; k < 10; k++) {
-                        if (!selected[k]) {
-                            board[p][q] = (char) ('0' + k);
-                            if (solveSudoku(board, p, q)) {
-                                return true;
-                            }
-                            board[p][q] = '.';
-                        }
-                    }
-                    return false;
+        Stack<int[]> stack = new Stack<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    stack.push(new int[]{i, j});
                 }
             }
         }
-        return true;
+        solveSudoku(board, stack);
+    }
+
+    private boolean solveSudoku(char[][] board, Stack<int[]> stack) {
+        if (stack.isEmpty()) {
+            return true;
+        }
+        int[] pop = stack.pop();
+        int x = pop[0];
+        int y = pop[1];
+        boolean[] selected = make(board, x, y);
+        for (int i = 1; i < 10; i++) {
+            if (!selected[i]) {
+                board[x][y] = (char) ('0' + i);
+                if (solveSudoku(board, stack)) {
+                    return true;
+                }
+            }
+        }
+        board[x][y] = '.';
+        stack.push(pop);
+        return false;
     }
 
     private boolean[] make(char[][] board, int p, int q) {
