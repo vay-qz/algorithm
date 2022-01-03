@@ -41,6 +41,10 @@ public class Backtracking {
         }
     }
 
+    /**93
+     * @param s
+     * @return
+     */
     public List<String> restoreIpAddresses(String s) {
         List<String> res = new ArrayList<>();
         List<String> r = new ArrayList<>();
@@ -74,6 +78,11 @@ public class Backtracking {
         }
     }
 
+    /**单词搜索 79
+     * @param board
+     * @param word
+     * @return
+     */
     public boolean exist(char[][] board, String word) {
         boolean[][] visited;
         int[] xx = {1, 0, -1, 0};
