@@ -281,4 +281,103 @@ public class Tree {
         return res;
     }
 
+    /**101
+     * @param root
+     * @return
+     */
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isSymmetric(root.left, root.right);
+    }
+
+    private boolean isSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        if (left == null || right == null) {
+            return false;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
+        return isSymmetric(left.right, right.left) && isSymmetric(left.left, right.right);
+    }
+
+    /**111
+     * @param root
+     * @return
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int res = 1;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Stack<TreeNode> temp = new Stack<>();
+            while (!stack.isEmpty()) {
+                TreeNode pop = stack.pop();
+                if (pop.left == null && pop.right == null) {
+                    return res;
+                } else {
+                    if (pop.left != null) {
+                        temp.push(pop.left);
+                    }
+                    if (pop.right != null) {
+                        temp.push(pop.right);
+                    }
+                }
+            }
+            res++;
+            stack = temp;
+        }
+        return res;
+    }
+
+    /**404
+     * @param root
+     * @return
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int res = 0;
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> left = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Stack<TreeNode> temp = new Stack<>();
+            while (!stack.isEmpty()) {
+                TreeNode pop = stack.pop();
+                if (pop.left != null) {
+                    temp.push(pop.left);
+                    left.push(pop.left);
+                }
+                if (pop.right != null) {
+                    temp.push(pop.right);
+                }
+            }
+            stack = temp;
+        }
+        while (!left.isEmpty()) {
+            TreeNode pop = left.pop();
+            if (pop.left == null && pop.right == null) {
+                res += pop.val;
+            }
+        }
+        return res;
+    }
+
+    /**687
+     * @param root
+     * @return
+     */
+    public int longestUnivaluePath(TreeNode root) {
+
+    }
+
 }
