@@ -376,7 +376,42 @@ public class Tree {
      * @param root
      * @return
      */
+    int longestUnivaluePathMax = 0;
+
     public int longestUnivaluePath(TreeNode root) {
+        longestUnivaluePath1(root);
+        return longestUnivaluePathMax;
+    }
+
+    private int longestUnivaluePath1(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = longestUnivaluePath1(root.left);
+        int right = longestUnivaluePath1(root.right);
+        if (root.left != null && root.val == root.left.val) {
+            left++;
+        } else {
+            left = 0;
+        }
+        if (root.right != null && root.val == root.right.val) {
+            right++;
+        } else {
+            right = 0;
+        }
+        int max = Math.max(left, right);
+        if (root.left != null && root.right != null && root.val == root.left.val && root.val == root.right.val) {
+            max = left + right;
+        }
+        longestUnivaluePathMax = Math.max(max, longestUnivaluePathMax);
+        return Math.max(left, right);
+    }
+
+    /**337
+     * @param root
+     * @return
+     */
+    public int rob(TreeNode root) {
 
     }
 
