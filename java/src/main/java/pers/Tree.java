@@ -407,12 +407,108 @@ public class Tree {
         return Math.max(left, right);
     }
 
-    /**337
+    /**337 丑了点，需要看题解优化下
      * @param root
      * @return
      */
     public int rob(TreeNode root) {
+        TreeNode dp = copy(root);
+        makeDp(dp, root);
+        return dp.val;
+    }
 
+    private void makeDp(TreeNode dp, TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        if (dp.val != -1) {
+            return;
+        }
+        int rootV = root.val;
+        int nextLevel = 0;
+        makeDp(dp.left, root.left);
+        makeDp(dp.right, root.right);
+        if (root.left != null) {
+            nextLevel += dp.left.val;
+            if (root.left.left != null) {
+                makeDp(dp.left.left, root.left.left);
+                rootV += dp.left.left.val;
+            }
+            if (root.left.right != null) {
+                makeDp(dp.left.right, root.left.right);
+                rootV += dp.left.right.val;
+            }
+        }
+        if (root.right != null) {
+            nextLevel += dp.right.val;
+            if (root.right.left != null) {
+                makeDp(dp.right.left, root.right.left);
+                rootV += dp.right.left.val;
+            }
+            if (root.right.right != null) {
+                makeDp(dp.right.right, root.right.right);
+                rootV += dp.right.right.val;
+            }
+        }
+        dp.val = Math.max(nextLevel, rootV);
+    }
+
+    private TreeNode copy(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode dp = new TreeNode();
+        dp.val = -1;
+        dp.left = copy(root.left);
+        dp.right = copy(root.right);
+        return dp;
+    }
+
+//    /** 超时了
+//     * @param root
+//     * @return
+//     */
+//    public int rob(TreeNode root) {
+//        if (root == null) {
+//            return 0;
+//        }
+//        int rootV = root.val;
+//        int left = rob(root.left);
+//        int right = rob(root.right);
+//        if (root.left != null) {
+//            rootV += rob(root.left.left);
+//            rootV += rob(root.left.right);
+//        }
+//        if (root.right != null) {
+//            rootV += rob(root.right.left);
+//            rootV += rob(root.right.right);
+//        }
+//        return Math.max(left + right, rootV);
+//    }
+
+    /**671
+     * @param root
+     * @return
+     */
+    public int findSecondMinimumValue(TreeNode root) {
+        if (root.left == null) {
+            return -1;
+        }
+        int left = root.left.val;
+        int right = root.right.val;
+        if (left == root.val) {
+            left = findSecondMinimumValue(root.left);
+        }
+        if (right == root.val) {
+            right = findSecondMinimumValue(root.right);
+        }
+        if (left == -1) {
+            return right;
+        }
+        if (right == -1) {
+            return left;
+        }
+        return Math.min(left, right);
     }
 
 }
