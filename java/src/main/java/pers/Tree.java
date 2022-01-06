@@ -1,9 +1,6 @@
 package pers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author qiaozhe
@@ -509,6 +506,216 @@ public class Tree {
             return left;
         }
         return Math.min(left, right);
+    }
+
+    /**637
+     * @param root
+     * @return
+     */
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        stack.add(root);
+        while (!stack.isEmpty()) {
+            int size = stack.size();
+            double sum = 0;
+            for (int i = 0; i < size; i++) {
+                TreeNode pop = stack.pop();
+                sum += pop.val;
+                if (pop.left != null) {
+                    stack.add(pop.left);
+                }
+                if (pop.right != null) {
+                    stack.add(pop.right);
+                }
+            }
+            res.add((sum)/size);
+        }
+        return res;
+    }
+
+    /**513
+     * @param root
+     * @return
+     */
+    public int findBottomLeftValue(TreeNode root) {
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        LinkedList<TreeNode> last = new LinkedList<>();
+        stack.add(root);
+        last.add(root);
+        while (!stack.isEmpty()) {
+            LinkedList<TreeNode> tempLast = new LinkedList<>();
+            int size = stack.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode pop = stack.pop();
+                if (pop.left != null) {
+                    stack.add(pop.left);
+                    tempLast.add(pop.left);
+                }
+                if (pop.right != null) {
+                    stack.add(pop.right);
+                    tempLast.add(pop.right);
+                }
+            }
+            if (!tempLast.isEmpty()) {
+                last = tempLast;
+            }
+        }
+        return last.pop().val;
+    }
+
+    /**144 递归
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        res.add(root.val);
+        preorderTraversal(root.left, res);
+        preorderTraversal(root.right, res);
+        return res;
+    }
+
+    private void preorderTraversal(TreeNode left, List<Integer> res) {
+        if (left == null) {
+            return;
+        }
+        res.add(left.val);
+        preorderTraversal(left.left, res);
+        preorderTraversal(left.right, res);
+    }
+
+    /**144 循环
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal1(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode pop = stack.pop();
+            res.add(pop.val);
+            if (pop.right != null) {
+                stack.push(pop.right);
+            }
+            if (pop.left != null) {
+                stack.push(pop.left);
+            }
+        }
+        return res;
+    }
+
+    /**145 递归
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        postorderTraversal(root.left, res);
+        postorderTraversal(root.right, res);
+        res.add(root.val);
+        return res;
+    }
+
+    private void postorderTraversal(TreeNode left, List<Integer> res) {
+        if (left == null) {
+            return;
+        }
+        postorderTraversal(left.left, res);
+        postorderTraversal(left.right, res);
+        res.add(left.val);
+    }
+
+    /**145 循环
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal1(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<TreeNode> treeNodes = new Stack<>();
+        treeNodes.push(root);
+        while (!treeNodes.isEmpty()) {
+            TreeNode pop = treeNodes.pop();
+            res.addFirst(pop.val);
+            if (pop.left != null) {
+                treeNodes.push(pop.left);
+            }
+            if (pop.right != null) {
+                treeNodes.push(pop.right);
+            }
+        }
+        return res;
+    }
+
+    /**94 递归
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        inorderTraversal(root.left, res);
+        res.add(root.val);
+        inorderTraversal(root.right, res);
+        return res;
+    }
+
+    private void inorderTraversal(TreeNode root, List<Integer> res) {
+        if (root == null) {
+            return;
+        }
+        inorderTraversal(root.left, res);
+        res.add(root.val);
+        inorderTraversal(root.right, res);
+    }
+
+    /**94 循环
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal1(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        TreeNode t = root;
+        while (t.left != null) {
+            stack.push(t.left);
+            t = t.left;
+        }
+        while (!stack.isEmpty()) {
+            TreeNode pop1 = stack.pop();
+            res.add(pop1.val);
+            if (pop1.right != null) {
+                stack.push(pop1.right);
+                TreeNode temp = pop1.right;
+                while (temp.left != null) {
+                    stack.push(temp.left);
+                    temp = temp.left;
+                }
+            }
+        }
+        return res;
     }
 
 }

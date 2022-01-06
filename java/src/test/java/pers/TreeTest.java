@@ -29,4 +29,19 @@ public class TreeTest {
         root2.right = root4;
         tree.rob(root);
     }
+
+    @Test
+    public void averageOfLevels() {
+        Tree tree = new Tree();
+        TreeNode root = new TreeNode(2147483647);
+        TreeNode root1 = new TreeNode(2147483647);
+        TreeNode root2 = new TreeNode(2147483647);
+//        TreeNode root3 = new TreeNode(15);
+//        TreeNode root4 = new TreeNode(7);
+        root.left = root1;
+        root.right = root2;
+//        root2.left = root3;
+//        root2.right = root4;
+        tree.averageOfLevels(root);
+    }
 }
