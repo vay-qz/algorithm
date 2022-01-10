@@ -60,4 +60,29 @@ public class BSTTree {
         return -1;
     }
 
+    /**538
+     * @param root
+     * @return
+     */
+    public TreeNode convertBST(TreeNode root) {
+        convertBST(root, 0);
+        return root;
+    }
+
+    private int convertBST(TreeNode root, int val) {
+        if (root == null) {
+            return 0;
+        }
+        int rightSum = convertBST(root.right, val);
+        root.val += rightSum;
+        if (root.right == null) {
+            root.val += val;
+        }
+        int leftSum = convertBST(root.left, root.val);
+        if (root.left != null) {
+            return leftSum;
+        }
+        return root.val;
+    }
+
 }
