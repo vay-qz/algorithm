@@ -32,4 +32,12 @@ public class BSTTreeTest {
         root6.right = root8;
         bstTree.convertBST(root);
     }
+
+    @Test
+    public void lowestCommonAncestor() {
+        TreeNode root = new TreeNode(2);
+        TreeNode root1 = new TreeNode(1);
+        root.left = root1;
+        bstTree.lowestCommonAncestor(root, root1, root);
+    }
 }
