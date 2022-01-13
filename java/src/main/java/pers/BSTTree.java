@@ -1,7 +1,6 @@
 package pers;
 
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author qiaozhe
@@ -190,12 +189,97 @@ public class BSTTree {
         return root;
     }
 
-    /**109
-     * @param head 653 530 501
+    /**109 todo
+     * @param head
      * @return
      */
     public TreeNode sortedListToBST(ListNode head) {
+        return null;
+    }
 
+    /**653 todo
+     * @param root
+     * @param k
+     * @return
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        if (root == null) {
+            return false;
+        }
+        return findAnother(root.left, k - root.val) || findAnother(root.right, k - root.val)
+                || findTarget(root.left, k) || findTarget(root.right, k);
+    }
+
+    private boolean findAnother(TreeNode root, int i) {
+        if (root == null || i <= 0) {
+            return false;
+        }
+        if (root.val == i) {
+            return true;
+        }
+        if (i < root.val) {
+            return findAnother(root.right, i);
+        } else {
+            return findAnother(root.left, i);
+        }
+    }
+
+    /**530
+     * @param root
+     * @return
+     */
+    public int getMinimumDifference(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        getMinimumDifference(root.left, list);
+        list.add(root.val);
+        getMinimumDifference(root.right, list);
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < list.size() - 1; i++) {
+            if ((list.get(i + 1) - list.get(i)) < min) {
+                min = list.get(i + 1) - list.get(i);
+            }
+        }
+        return min;
+    }
+
+    private void getMinimumDifference(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        getMinimumDifference(root.left, list);
+        list.add(root.val);
+        getMinimumDifference(root.right, list);
+    }
+
+    /**501
+     * @param root
+     * @return
+     */
+    public int[] findMode(TreeNode root) {
+        Map<Integer, Integer> map = new HashMap<>();
+        preBST(root, map);
+        int max = -1;
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                res.add(entry.getKey());
+            }
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private void preBST(TreeNode root, Map<Integer, Integer> res) {
+        if (root == null) {
+            return;
+        }
+        res.merge(root.val, 1, Integer::sum);
+        preBST(root.left, res);
+        preBST(root.right, res);
     }
 
 }
