@@ -189,40 +189,55 @@ public class BSTTree {
         return root;
     }
 
-    /**109 todo
+    /**109
      * @param head
      * @return
      */
     public TreeNode sortedListToBST(ListNode head) {
-        return null;
+        if (head == null) {
+            return null;
+        }
+        List<Integer> values = new ArrayList<>();
+        while (head!= null) {
+            values.add(head.val);
+            head = head.next;
+        }
+        int[] param = new int[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            param[i] = values.get(i);
+        }
+        return sortedArrayToBST(param);
     }
 
-    /**653 todo
+    /**653
      * @param root
      * @param k
      * @return
      */
     public boolean findTarget(TreeNode root, int k) {
-        if (root == null) {
-            return false;
+        Map<Integer, Integer> set = new HashMap();
+        mid(root, set);
+        for (Map.Entry<Integer, Integer> entry : set.entrySet()) {
+            if (entry.getKey() == k - entry.getKey()) {
+                if (entry.getValue() > 1) {
+                    return true;
+                }
+            } else if (set.containsKey(k - entry.getKey())) {
+                return true;
+            }
         }
-        return findAnother(root.left, k - root.val) || findAnother(root.right, k - root.val)
-                || findTarget(root.left, k) || findTarget(root.right, k);
+        return false;
     }
 
-    private boolean findAnother(TreeNode root, int i) {
-        if (root == null || i <= 0) {
-            return false;
+    private void mid(TreeNode root, Map<Integer, Integer> res) {
+        if (root == null) {
+            return;
         }
-        if (root.val == i) {
-            return true;
-        }
-        if (i < root.val) {
-            return findAnother(root.right, i);
-        } else {
-            return findAnother(root.left, i);
-        }
+        res.merge(root.val, 1, Integer::sum);
+        mid(root.left, res);
+        mid(root.right, res);
     }
+
 
     /**530
      * @param root
