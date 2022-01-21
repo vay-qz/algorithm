@@ -1,5 +1,8 @@
 package pers;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**排序
  * @author qiaozhe
  * @date 2022/1/17
@@ -143,8 +146,100 @@ public class SortBean {
      * @return
      */
     public int[] topKFrequent(int[] nums, int k) {
+        int maxFrequent = -1;
+        Map<Integer, Integer> frequent = new HashMap<>();
+        for (int num : nums) {
+            frequent.merge(num, 1, Integer::sum);
+            if (frequent.get(num) > maxFrequent) {
+                maxFrequent = frequent.get(num);
+            }
+        }
+        int[] bucket = new int[maxFrequent];
+        for (Map.Entry<Integer, Integer> entry : frequent.entrySet()) {
+            bucket[entry.getValue() - 1]++;
+        }
+        int min = maxFrequent;
+        for (int i = maxFrequent - 1; i >= 0; i--) {
+            if (bucket[i] != 0) {
+                min = i + 1;
+            }
+            k -= bucket[i];
+            if (k <= 0) {
+                break;
+            }
+        }
+        Set<Integer> resSet = new HashSet<>();
+        for (Map.Entry<Integer, Integer> entry : frequent.entrySet()) {
+            if (entry.getValue() >= min) {
+                resSet.add(entry.getKey());
+            }
+        }
+        int[] res = new int[resSet.size()];
+        int index = 0;
+        for (int v : resSet) {
+            res[index++] = v;
+        }
+        return res;
+    }
 
-        return null;
+    /**451
+     * @param s
+     * @return
+     */
+    public String frequencySort(String s) {
+        Map<Character, Integer> freq = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            freq.merge(c, 1, Integer::sum);
+        }
+        Holder[] holders = new Holder[freq.size()];
+        int index = 0;
+        for (Map.Entry<Character, Integer> entry : freq.entrySet()) {
+            holders[index++] = new Holder(entry.getKey(), entry.getValue());
+        }
+        List<Holder> collect = Arrays.stream(holders).sorted(Comparator.comparingInt(a -> -a.freq)).collect(Collectors.toList());
+        StringBuilder res = new StringBuilder();
+        for (Holder holder : collect) {
+            res.append(holder.getString());
+        }
+        return res.toString();
+    }
+
+    class Holder {
+        char c;
+        int freq;
+        Holder(Character c, Integer v) {
+            this.c = c;
+            this.freq = v;
+        }
+
+        StringBuilder getString() {
+            int k = freq;
+            StringBuilder builder = new StringBuilder();
+            while (k > 0) {
+                builder.append(c);
+                k--;
+            }
+            return builder;
+        }
+    }
+
+    /**75
+     * @param nums
+     */
+    public void sortColors(int[] nums) {
+        int[] freq = new int[3];
+        for (int num : nums) {
+            freq[num]++;
+        }
+        int index1 = 0;
+        int index2 = 0;
+        while (index1 < nums.length) {
+            while (freq[index2] == 0) {
+                index2++;
+            }
+            nums[index1++] = index2;
+            freq[index2]--;
+        }
     }
 
 }

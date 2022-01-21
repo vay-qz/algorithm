@@ -30,4 +30,10 @@ public class SortBeanTest {
         sortBean.heapSort(nums);
     }
 
+    @Test
+    public void topKFrequent() {
+        int[] nums = {4,1,-1,2,-1,2,3};
+        sortBean.topKFrequent(nums, 2);
+    }
+
 }
