@@ -17,4 +17,10 @@ public class StringBeanTest {
         StringBean bean = new StringBean();
         bean.isIsomorphic("badc", "baba");
     }
+
+    @Test
+    public void countSubstrings() {
+        StringBean bean = new StringBean();
+        bean.countSubstrings("abc");
+    }
 }
