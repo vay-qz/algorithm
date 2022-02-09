@@ -51,27 +51,36 @@ public class ArrayBean {
         return sort[0];
     }
 
-    private void adjust(int[] sort, int i, int length) {
-        if (i >= length) {
+    private void adjust(int[] sort, int i, int limit) {
+        if (i > limit) {
             return;
         }
-        int left = Integer.MAX_VALUE;
-        int right = Integer.MAX_VALUE;
-        if (i * 2 + 1 < length) {
-            left = sort[i * 2 + 1];
+        if (i * 2 + 1 < limit && i * 2 + 2 < limit) {
+            int low = sort[i * 2 + 1];
+            int high = sort[i * 2 + 2];
+            if (low > high) {
+                if (high < sort[i]) {
+                    swap(sort, i, i * 2 + 2);
+                    adjust(sort, i * 2 + 2, limit);
+                }
+            } else {
+                if (low < sort[i]) {
+                    swap(sort, i, i * 2 + 1);
+                    adjust(sort, i * 2 + 1, limit);
+                }
+            }
+        } else if (i * 2 + 1 < limit) {
+            if (sort[i * 2 + 1] < sort[i]) {
+                swap(sort, i, i * 2 + 1);
+                adjust(sort, i * 2 + 1, limit);
+            }
         }
-        if (i * 2 + 2 < length) {
-            right = sort[i * 2 + 2];
-        }
-        if (left <= right && sort[i] > left) {
-            sort[i * 2 + 1] = sort[i];
-            sort[i] = left;
-            adjust(sort, i * 2 + 1, length);
-        } else if (right < left && sort[i] > right){
-            sort[i * 2 + 2] = sort[i];
-            sort[i] = right;
-            adjust(sort, i * 2 + 2, length);
-        }
+    }
+
+    private void swap(int[] sort, int a, int b) {
+        int temp = sort[a];
+        sort[a] = sort[b];
+        sort[b] = temp;
     }
 
 }
