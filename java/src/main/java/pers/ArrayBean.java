@@ -17,13 +17,61 @@ public class ArrayBean {
         return null;
     }
 
-    /**四数之和
+    /**18 四数之和
      * @param nums
      * @param target
      * @return
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
         return null;
+    }
+
+    /**378
+     * @param matrix
+     * @param k
+     * @return
+     */
+    public int kthSmallest(int[][] matrix, int k) {
+        int[] sort = new int[matrix.length * matrix[0].length];
+        int index = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                sort[index++] = matrix[i][j];
+            }
+        }
+        for (int i = sort.length / 2; i >= 0; i--) {
+            adjust(sort, i, sort.length);
+        }
+        for (int i = 1; i < k; i++) {
+            int temp = sort[0];
+            sort[0] = sort[sort.length - i];
+            sort[sort.length - i] = temp;
+            adjust(sort, 0, sort.length - i + 1);
+        }
+        return sort[0];
+    }
+
+    private void adjust(int[] sort, int i, int length) {
+        if (i >= length) {
+            return;
+        }
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MAX_VALUE;
+        if (i * 2 + 1 < length) {
+            left = sort[i * 2 + 1];
+        }
+        if (i * 2 + 2 < length) {
+            right = sort[i * 2 + 2];
+        }
+        if (left <= right && sort[i] > left) {
+            sort[i * 2 + 1] = sort[i];
+            sort[i] = left;
+            adjust(sort, i * 2 + 1, length);
+        } else if (right < left && sort[i] > right){
+            sort[i * 2 + 2] = sort[i];
+            sort[i] = right;
+            adjust(sort, i * 2 + 2, length);
+        }
     }
 
 }
