@@ -83,4 +83,21 @@ public class ArrayBean {
         sort[b] = temp;
     }
 
+    /**769
+     * @param arr
+     * @return
+     */
+    public int maxChunksToSorted(int[] arr) {
+        int res = 0, max = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = i;
+            }
+            if (max == i) {
+                res++;
+            }
+        }
+        return res;
+    }
+
 }

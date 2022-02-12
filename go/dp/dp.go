@@ -808,3 +808,7 @@ func minSteps(n int) int {
 	}
 	return dp[n]
 }
+// 524
+func findLongestWord(s string, dictionary []string) string {
+
+}
