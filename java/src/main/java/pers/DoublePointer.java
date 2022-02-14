@@ -134,12 +134,45 @@ public class DoublePointer {
     }
 
     /**31
-     * todo
      * @param nums
      */
     public void nextPermutation(int[] nums) {
-
+        int index = nums.length - 1;
+        while (index > 0) {
+            if (nums[index - 1] < nums[index]) {
+                break;
+            }
+            index--;
+        }
+        if (index == 0 && nums[0] >= nums[1]) {
+            reverse(nums, 0);
+            return;
+        }
+        index--;
+        int index2 = nums.length - 1;
+        while (index2 < index) {
+            if (nums[index2] > nums[index]) {
+                break;
+            }
+        }
+        swap(nums, index, index2);
+        reverse(nums, index + 1);
     }
+
+    private void reverse(int[] nums, int i) {
+        int end = nums.length - 1;
+        while (i > end) {
+            swap(nums, i, end);
+        }
+    }
+
+    private void swap(int[] nums, int index, int index2) {
+        int temp = nums[index];
+        nums[index] = nums[index2];
+        nums[index2] = temp;
+    }
+
+
 
 
 }
