@@ -94,7 +94,52 @@ public class DoublePointer {
         return builder.toString();
     }
 
+    /**524
+     * @param s
+     * @param dictionary
+     * @return
+     */
+    public String findLongestWord(String s, List<String> dictionary) {
+        dictionary.sort((a, b) -> {
+            if (a.length() == b.length()) {
+                for (int i = 0; i < a.length(); i++) {
+                    if (a.charAt(i) != b.charAt(i)) {
+                        return a.charAt(i) - b.charAt(i);
+                    }
+                }
+                return 0;
+            }
+            return b.length() - a.length();
+        });
+        for (String c : dictionary) {
+            if (isSub(s, c)) {
+                return c;
+            }
+        }
+        return "";
+    }
 
+    private boolean isSub(String s, String c) {
+        int si = 0;
+        for (int i = 0; i < c.length(); i++) {
+            while (si < s.length() && s.charAt(i) != c.charAt(i)) {
+                si++;
+            }
+            if (si == s.length()) {
+                return false;
+            }
+            si++;
+        }
+        return true;
+    }
+
+    /**31
+     * todo
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+
+    }
 
 
 }

@@ -100,4 +100,43 @@ public class ArrayBean {
         return res;
     }
 
+    /**540
+     * @param nums
+     * @return
+     */
+    int target = 0;
+    public int singleNonDuplicate(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        findTarget(0, nums.length - 1, nums);
+        return target;
+    }
+
+    private void findTarget(int head, int tail, int[] nums) {
+        if (head > tail || head < 0 || tail > nums.length - 1) {
+            return;
+        }
+        int mid = (head + tail) / 2;
+        if (mid == 0 && nums[mid] != nums[mid + 1]) {
+            target = nums[mid];
+            return;
+        }
+        if (mid == nums.length - 1 && nums[mid] != nums[mid - 1]) {
+            target = nums[mid];
+            return;
+        }
+        if (nums[mid] == nums[mid + 1]) {
+            findTarget(head, mid - 1, nums);
+            findTarget(mid + 2, tail, nums);
+            return;
+        } else if (nums[mid] == nums[mid - 1]) {
+            findTarget(head, mid - 2, nums);
+            findTarget(mid + 1, tail, nums);
+        } else {
+            target = nums[mid];
+            return;
+        }
+    }
+
 }
