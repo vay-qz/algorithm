@@ -139,4 +139,69 @@ public class ArrayBean {
         }
     }
 
+    int res = -1;
+    int xz = -1;
+
+    /**33
+     * todo
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int search(int[] nums, int target) {
+        if (nums.length == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+        if (nums[0] == target) {
+            return 0;
+        }
+        findxz(nums, 0, nums.length - 1);
+        if (xz == -1) {
+            find(0, nums.length - 1, nums, target);
+        }
+        if (nums[0] < target) {
+            find(0, xz, nums, target);
+            return res;
+        } else {
+            find(xz + 1, nums.length - 1, nums, target);
+            return res;
+        }
+    }
+
+    private void findxz(int[] nums, int head, int tail) {
+        if (head > tail) {
+            return;
+        }
+        int mid = (head + tail) / 2;
+        if (mid + 1 < nums.length && nums[mid] > nums[mid + 1]) {
+            xz = mid;
+            return;
+        }
+        if (mid - 1 >= 0 && nums[mid] < nums[mid - 1]) {
+            xz = mid - 1;
+            return;
+        }
+        if (nums[0] > nums[mid]) {
+            findxz(nums, 0, mid - 1);
+        } else {
+            findxz(nums, mid + 1, nums.length - 1);
+        }
+    }
+
+    private void find(int head, int tail, int[] nums, int target) {
+        if (head > tail) {
+            return;
+        }
+        int mid = (head + tail) / 2;
+        if (nums[mid] == target) {
+            res = mid;
+            return;
+        }
+        if (nums[mid] < target) {
+            find(mid + 1, tail, nums, target);
+        } else {
+            find(head, mid - 1, nums, target);
+        }
+    }
+
 }
