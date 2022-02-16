@@ -1,6 +1,8 @@
 package pers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringBean {
@@ -139,6 +141,44 @@ public class StringBean {
             sum += Math.min(t[i], t[i - 1]);
         }
         return sum;
+    }
+
+    /**49
+     * @param strs
+     * @return
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            addMap(str, map);
+        }
+        List<List<String>> res = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+            res.add(entry.getValue());
+        }
+        return res;
+    }
+
+    private void addMap(String str, Map<String, List<String>> map) {
+        String sort = sort(str.toCharArray());
+        map.computeIfAbsent(sort, k -> new ArrayList<>());
+        map.get(sort).add(str);
+    }
+
+    private String sort(char[] chars) {
+        int[] bucket = new int[27];
+        for (char c : chars) {
+            bucket[c - 'a']++;
+        }
+        char[] res = new char[chars.length];
+        int i = 0;
+        for (int bi = 0; bi < bucket.length; bi++) {
+            while (bucket[bi] > 0) {
+                res[i++] = (char)(bi + 'a');
+                bucket[bi]--;
+            }
+        }
+        return new String(res);
     }
 
 }

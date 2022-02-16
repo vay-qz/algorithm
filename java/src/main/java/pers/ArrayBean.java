@@ -1,7 +1,6 @@
 package pers;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author qiaozhe
@@ -179,13 +178,77 @@ public class ArrayBean {
     }
 
     /**34
-     * todo
      * @param nums
      * @param target
      * @return
      */
+    int res2 = -1;
     public int[] searchRange(int[] nums, int target) {
+        if (nums.length == 0) {
+            return new int[]{-1, -1};
+        }
+        midFind(nums, 0, nums.length - 1, target);
+        int[] res = new int[2];
+        buildRes(res, nums, target);
+        return res;
+    }
 
+    private void buildRes(int[] res, int[] nums, int target) {
+        if (res2 == -1) {
+            res[0] = -1;
+            res[1] = -1;
+            return;
+        }
+        int index1 = res2;
+        while (true) {
+            if (index1 >= 0) {
+                if (nums[index1] == target) {
+                    index1--;
+                } else {
+                    index1++;
+                    break;
+                }
+            } else {
+                index1++;
+                break;
+            }
+        }
+        int index2 = res2;
+        while (true) {
+            if (index2 < nums.length) {
+                if (nums[index2] == target) {
+                    index2++;
+                } else {
+                    index2--;
+                    break;
+                }
+            } else {
+                index2--;
+                break;
+            }
+        }
+        res[0] = index1;
+        res[1] = index2;
+    }
+
+    private void midFind(int[] nums, int head, int tail, int target) {
+        if (head > tail) {
+            return;
+        }
+        int mid = (head + tail) / 2;
+        if (nums[mid] == target) {
+            res2 = mid;
+            return;
+        } else if (nums[mid] > target) {
+            midFind(nums, head, mid - 1, target);
+        } else {
+            midFind(nums, mid + 1, tail, target);
+        }
+        Map<String, List<String>> map = new HashMap<>();
+        String t = "";
+        String sort = "";
+        map.computeIfAbsent(sort, k -> new ArrayList<>());
+        map.get(sort).add(t);
     }
 
 

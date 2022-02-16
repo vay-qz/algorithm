@@ -23,4 +23,11 @@ public class StringBeanTest {
         StringBean bean = new StringBean();
         bean.countSubstrings("abc");
     }
+
+    @Test
+    public void groupAnagrams() {
+        StringBean bean = new StringBean();
+        String[] b = {"eat","tea","tan","ate","nat","bat"};
+        bean.groupAnagrams(b);
+    }
 }
