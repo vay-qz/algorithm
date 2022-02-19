@@ -242,4 +242,34 @@ public class SortBean {
         }
     }
 
+    /**56
+     * @param intervals
+     * @return
+     */
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        List<int[]> res = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            int[] te = new int[i];
+            int j = i + 1;
+            for (; j < intervals.length; j++) {
+                if (intervals[j][0] > te[1]) {
+                    i = j - 1;
+                    break;
+                } else {
+                    te[1] = Math.max(intervals[j][1], te[1]);
+                }
+            }
+            if (j == intervals.length) {
+                i = j;
+            }
+            res.add(te);
+        }
+        int[][] ress = new int[res.size()][];
+        for (int i = 0; i < ress.length; i++) {
+            ress[i] = res.get(i);
+        }
+        return ress;
+    }
+
 }
