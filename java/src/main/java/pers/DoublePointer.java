@@ -137,25 +137,17 @@ public class DoublePointer {
      * @param nums
      */
     public void nextPermutation(int[] nums) {
-        int index = nums.length - 1;
-        while (index > 0) {
-            if (nums[index - 1] < nums[index]) {
-                break;
-            }
+        int index = nums.length - 2;
+        while (index >= 0 && nums[index] >= nums[index + 1]) {
             index--;
         }
-        if (index == 0 && nums[0] >= nums[1]) {
-            reverse(nums, 0);
-            return;
-        }
-        index--;
-        int index2 = nums.length - 1;
-        while (index2 < index) {
-            if (nums[index2] > nums[index]) {
-                break;
+        if (index >= 0) {
+            int index2 = nums.length - 1;
+            while (index2 > index && nums[index2] <= nums[index]) {
+                index2--;
             }
+            swap(nums, index, index2);
         }
-        swap(nums, index, index2);
         reverse(nums, index + 1);
     }
 
@@ -173,6 +165,47 @@ public class DoublePointer {
     }
 
 
-
+    /**42 接雨水
+     * @param height
+     * @return
+     */
+    public int trap(int[] height) {
+        if (height.length == 1) {
+            return 0;
+        }
+        int left = 0;
+        while (left < height.length && height[left] <= 0) {
+            left++;
+        }
+        int right = height.length - 1;
+        while (right >= 0 && height[right] <= 0) {
+            right--;
+        }
+        int sum = 0;
+        int leftMax = height[left];
+        int rightMax = height[right];
+        while (left < right) {
+            int temp;
+            while (left + 1 <= right && height[left + 1] >= leftMax) {
+                left++;
+                leftMax = height[left];
+            }
+            while (right - 1 >= left && height[right - 1] >= rightMax) {
+                right--;
+                rightMax = height[right];
+            }
+            if (left < right) {
+                if (leftMax < rightMax) {
+                    temp = leftMax - height[left + 1];
+                    left++;
+                } else {
+                    temp = rightMax - height[right - 1];
+                    right--;
+                }
+                sum += temp;
+            }
+        }
+        return sum;
+    }
 
 }
