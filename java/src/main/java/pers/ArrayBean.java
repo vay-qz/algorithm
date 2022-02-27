@@ -295,5 +295,13 @@ public class ArrayBean {
         return res;
     }
 
+    /**238
+     * @param nums
+     * @return
+     */
+    public int[] productExceptSelf(int[] nums) {
+        return null;
+    }
+
 
 }
