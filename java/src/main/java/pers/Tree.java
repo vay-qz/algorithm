@@ -461,28 +461,6 @@ public class Tree {
         return dp;
     }
 
-//    /** 超时了
-//     * @param root
-//     * @return
-//     */
-//    public int rob(TreeNode root) {
-//        if (root == null) {
-//            return 0;
-//        }
-//        int rootV = root.val;
-//        int left = rob(root.left);
-//        int right = rob(root.right);
-//        if (root.left != null) {
-//            rootV += rob(root.left.left);
-//            rootV += rob(root.left.right);
-//        }
-//        if (root.right != null) {
-//            rootV += rob(root.right.left);
-//            rootV += rob(root.right.right);
-//        }
-//        return Math.max(left + right, rootV);
-//    }
-
     /**671
      * @param root
      * @return

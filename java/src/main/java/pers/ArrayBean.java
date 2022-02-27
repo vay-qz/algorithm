@@ -251,5 +251,49 @@ public class ArrayBean {
         map.get(sort).add(t);
     }
 
+    /**169
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int count = 1;
+        int t = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (count == 0) {
+                count = 1;
+                t = nums[i];
+            } else {
+                if (t == nums[i]) {
+                    count++;
+                } else {
+                    count--;
+                }
+            }
+        }
+        return t;
+    }
+
+    /**448
+     * @param nums
+     * @return
+     */
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            int t = nums[i] - 1;
+            while (t >= n) {
+                t -= n;
+            }
+            nums[t] += n;
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= n) {
+                res.add(i + 1);
+            }
+        }
+        return res;
+    }
+
 
 }
