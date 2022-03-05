@@ -1,8 +1,6 @@
 package pers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author qiaozhe
@@ -222,6 +220,73 @@ public class Dfs {
                 }
             }
         }
+    }
+
+    /**399
+     * @param equations
+     * @param values
+     * @param queries
+     * @return
+     */
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        Set<String> d = new HashSet();
+        for (List<String> str : equations) {
+            d.add(str.get(0));
+            d.add(str.get(1));
+        }
+        List<List<String>> others = new ArrayList();
+        double[] values2 = new double[values.length];
+        for (int i = 0; i < equations.size(); i++) {
+            List<String> kk = equations.get(i);
+            List<String> temp = new ArrayList();
+            temp.add(kk.get(1));
+            temp.add(kk.get(0));
+            others.add(temp);
+            values2[i] = 1.0 / values[i];
+        }
+        equations.addAll(others);
+        double[] newValues = new double[values.length * 2];
+        for (int i = 0; i < values.length; i++) {
+            newValues[i] = values[i];
+            newValues[i + values.length] = values2[i];
+        }
+        double[] res = new double[queries.size()];
+        for (int i = 0; i < queries.size(); i++) {
+            if (!check(d, queries.get(i))) {
+                res[i] = -1;
+                continue;
+            }
+            boolean[] visited = new boolean[equations.size()];
+            res[i] = find(equations, newValues, visited, queries.get(i).get(0), queries.get(i).get(1), 1.0);
+        }
+        return res;
+    }
+
+    public boolean check(Set<String> d, List<String> str) {
+        return d.contains(str.get(0)) && d.contains(str.get(1));
+    }
+
+    private double find(List<List<String>> equations, double[] values, boolean[] visited, String begin, String end, double temp) {
+        if (begin.equals(end)) {
+            return 1;
+        }
+        for (int i = 0; i < equations.size(); i++) {
+            if (visited[i]) {
+                continue;
+            }
+            if (equations.get(i).get(0).equals(begin) && equations.get(i).get(1).equals(end)) {
+                return temp * values[i];
+            }
+            if (equations.get(i).get(0).equals(begin)) {
+                visited[i] = true;
+                double t = find(equations, values, visited, equations.get(i).get(1), end, temp * values[i]);
+                if (t != -1) {
+                    return t;
+                }
+                visited[i] = false;
+            }
+        }
+        return -1;
     }
 
 }

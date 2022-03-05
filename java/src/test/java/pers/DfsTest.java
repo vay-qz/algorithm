@@ -2,6 +2,9 @@ package pers;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -62,6 +65,36 @@ public class DfsTest {
                 {3,3,3,3,3,3}
         };
         dfs.pacificAtlantic(s3);
+    }
+
+    @Test
+    public void calcEquation() {
+        List<List<String>> c = new ArrayList<>();
+        List<String> o1 = new ArrayList<>();
+        o1.add("a");
+        o1.add("b");
+        List<String> o2 = new ArrayList<>();
+        o2.add("b");
+        o2.add("c");
+        c.add(o1);
+        c.add(o2);
+        double[] va = {2.0, 3.0};
+        List<List<String>> queries = new ArrayList<>();
+        List<String> q1 = new ArrayList<>();
+        q1.add("x");
+        q1.add("x");
+        List<String> q2 = new ArrayList<>();
+        q2.add("b");
+        q2.add("a");
+        List<String> q3 = new ArrayList<>();
+        q3.add("a");
+        q3.add("e");
+        queries.add(q1);
+        queries.add(q2);
+        queries.add(q3);
+
+        Dfs dfs = new Dfs();
+        dfs.calcEquation(c, va, queries);
     }
 
 }
