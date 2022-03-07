@@ -295,13 +295,30 @@ public class ArrayBean {
         return res;
     }
 
-    /**238
-     * @param nums
+    /**621
+     * @param tasks
+     * @param n
      * @return
      */
-    public int[] productExceptSelf(int[] nums) {
-        return null;
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> map = new HashMap<>();
+        int max = 0;
+        for (char c : tasks) {
+            map.putIfAbsent(c, 0);
+            Integer integer = map.get(c);
+            integer++;
+            if (integer > max) {
+                max = integer;
+            }
+            map.put(c, integer);
+        }
+        int maxCount = 0;
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (entry.getValue() == max) {
+                maxCount++;
+            }
+        }
+        return Math.max((max - 1)  * (n + 1) + maxCount, tasks.length);
     }
-
 
 }
