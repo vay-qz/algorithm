@@ -1,6 +1,6 @@
 package pers;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,30 +8,85 @@ import java.util.Map;
  */
 public class LRUCache {
 
-    private Map<Integer, Integer> value;
+    private Map<Integer, DoubleNode> hashMap;
 
-    private int maxCapacity;
+    private DoubleNode head;
+    private DoubleNode tail;
+
+    private final int capacity;
+    private int size;
 
     public LRUCache(int capacity) {
-        this.maxCapacity = capacity;
-        value = new LinkedHashMap(capacity, 0.75F, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry eldest) {
-                return this.size() > maxCapacity;
-            }
-        };
+        hashMap = new HashMap<>();
+        head = new DoubleNode();
+        tail = new DoubleNode();
+        head.next = tail;
+        tail.prev = head;
+        this.capacity = capacity;
     }
 
     public int get(int key) {
-        Integer integer = value.get(key);
-        if (integer == null) {
+        DoubleNode node = hashMap.get(key);
+        if (node == null) {
             return -1;
         }
-        return integer;
+        remove(node);
+        addHead(node);
+        return node.val;
     }
 
     public void put(int key, int value) {
-        this.value.put(key, value);
+        DoubleNode node1 = hashMap.get(key);
+        if (node1 == null) {
+            if (size == capacity) {
+                DoubleNode tail = removeTail();
+                hashMap.remove(tail.key);
+            } else {
+                size++;
+            }
+            node1 = new DoubleNode(key, value);
+            hashMap.put(key, node1);
+        } else {
+            remove(node1);
+            node1.val = value;
+        }
+        addHead(node1);
+    }
+
+    private void addHead(DoubleNode node) {
+        DoubleNode r = head.next;
+        head.next = node;
+        node.prev = head;
+        node.next = r;
+        r.prev = node;
+    }
+
+    private void remove(DoubleNode node) {
+        DoubleNode l = node.prev;
+        DoubleNode r = node.next;
+        l.next = r;
+        r.prev = l;
+    }
+
+    private DoubleNode removeTail() {
+        DoubleNode res = tail.prev;
+        DoubleNode l = tail.prev.prev;
+        l.next = tail;
+        tail.prev = l;
+        return res;
+    }
+
+    class DoubleNode {
+        DoubleNode prev;
+        DoubleNode next;
+        int key;
+        int val;
+        public DoubleNode () {
+        }
+        public DoubleNode (int key, int val) {
+            this.key = key;
+            this.val = val;
+        }
     }
 
     public static void main(String[] args) {
