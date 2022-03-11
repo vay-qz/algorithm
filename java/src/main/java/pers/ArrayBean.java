@@ -321,4 +321,47 @@ public class ArrayBean {
         return Math.max((max - 1)  * (n + 1) + maxCount, tasks.length);
     }
 
+    /**438
+     * @param s
+     * @param p
+     * @return
+     */
+    public List<Integer> findAnagrams(String s, String p) {
+        Map<Character, Integer> pMap = new HashMap();
+        Map<Character, Integer> tMap = new HashMap();
+        List<Integer> res = new ArrayList();
+        for (int i = 0; i < p.length(); i++) {
+            if (pMap.get(p.charAt(i)) == null) {
+                pMap.put(p.charAt(i), 1);
+            } else {
+                pMap.put(p.charAt(i), pMap.get(p.charAt(i)) + 1);
+            }
+            if (tMap.get(s.charAt(i)) == null) {
+                tMap.put(s.charAt(i), 1);
+            } else {
+                tMap.put(s.charAt(i), tMap.get(s.charAt(i)) + 1);
+            }
+        }
+        addRes(res, pMap, tMap, 0);
+        for (int i = p.length(); i < s.length(); i++) {
+            if (tMap.get(s.charAt(i)) == null) {
+                tMap.put(s.charAt(i), 1);
+            } else {
+                tMap.put(s.charAt(i), tMap.get(s.charAt(i)) + 1);
+            }
+            tMap.put(s.charAt(i - p.length()), tMap.get(s.charAt(i - p.length())) - 1);
+            addRes(res, pMap, tMap, i - p.length() + 1);
+        }
+        return res;
+    }
+
+    private void addRes(List<Integer> res, Map<Character, Integer> pMap, Map<Character, Integer> tMap, int i) {
+        for (Map.Entry<Character, Integer> entry : pMap.entrySet()) {
+            if (!entry.getValue().equals(tMap.get(entry.getKey()))) {
+                return;
+            }
+        }
+        res.add(i);
+    }
+
 }
