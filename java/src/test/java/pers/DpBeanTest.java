@@ -15,4 +15,11 @@ public class DpBeanTest {
         DpBean bean = new DpBean();
         bean.knightProbability(8, 30, 6, 4);
     }
+
+    @Test
+    public void countSquares() {
+        DpBean bean = new DpBean();
+        int[][] a = {{0,1,1,1},{1,1,1,1},{0,1,1,1}};
+        bean.countSquares(a);
+    }
 }

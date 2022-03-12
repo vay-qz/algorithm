@@ -40,5 +40,75 @@ public class DpBean {
         return dp[k][row][column];
     }
 
+    /**221
+     * @param matrix
+     * @return
+     */
+    public int maximalSquare(char[][] matrix) {
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        int max = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == '1') {
+                    if (i == 0 || j == 0) {
+                        dp[i][j] = matrix[i][j] - '0';
+                        if (dp[i][j] > max) {
+                            max = dp[i][j];
+                        }
+                        continue;
+                    }
+                    int min = Integer.MAX_VALUE;
+                    if (dp[i - 1][j] < min) {
+                        min = dp[i - 1][j];
+                    }
+                    if (dp[i][j - 1] < min) {
+                        min = dp[i][j - 1];
+                    }
+                    if (dp[i - 1][j - 1] < min) {
+                        min = dp[i - 1][j - 1];
+                    }
+                    dp[i][j] = min + 1;
+                    if (dp[i][j] > max) {
+                        max = dp[i][j];
+                    }
+                }
+            }
+        }
+        return max * max;
+    }
+
+    /**1277
+     * @param matrix
+     * @return
+     */
+    public int countSquares(int[][] matrix) {
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        int sum = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 1) {
+                    if (i == 0 || j == 0) {
+                        dp[i][j] = matrix[i][j];
+                        sum += dp[i][j];
+                        continue;
+                    }
+                    int min = Integer.MAX_VALUE;
+                    if (dp[i - 1][j] < min) {
+                        min = dp[i - 1][j];
+                    }
+                    if (dp[i][j - 1] < min) {
+                        min = dp[i][j - 1];
+                    }
+                    if (dp[i - 1][j - 1] < min) {
+                        min = dp[i - 1][j - 1];
+                    }
+                    dp[i][j] = min + 1;
+                    sum += dp[i][j];
+                }
+            }
+        }
+        return sum;
+    }
+
 
 }

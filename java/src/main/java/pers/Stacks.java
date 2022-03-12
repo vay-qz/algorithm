@@ -36,9 +36,10 @@ public class Stacks {
         LinkedList<Character> stack = new LinkedList<>();
         for (int i = 0 ; i < s.length(); i++) {
             char c = s.charAt(i);
-            stack.addLast(s.charAt(i));
             if (c == ']') {
                 adjust(stack);
+            } else {
+                stack.addLast(s.charAt(i));
             }
         }
         StringBuilder builder = new StringBuilder();
@@ -70,11 +71,12 @@ public class Stacks {
             }
         }
         int time = Integer.parseInt(timeStr.reverse().toString());
-        while (time > 1) {
-            repleteStr.append(repleteStr);
+        StringBuilder repleteStrRes = new StringBuilder();
+        while (time > 0) {
+            repleteStrRes.append(repleteStr);
             time--;
         }
-        String s = repleteStr.toString();
+        String s = repleteStrRes.toString();
         for (int i = 0; i < s.length(); i++) {
             stack.add(s.charAt(i));
         }
