@@ -8,6 +8,33 @@ import java.util.*;
  */
 public class Tree {
 
+    int max;
+
+    /**124
+     * @param root
+     * @return
+     */
+    public int maxPathSum(TreeNode root) {
+        max = root.val;
+        getMax(root);
+        return max;
+    }
+
+    private int getMax(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = getMax(root.left);
+        left = left > 0 ? left : 0;
+        int right = getMax(root.right);
+        right = right > 0 ? right : 0;
+        int ro = root.val + left + right;
+        if (ro > max) {
+            max = ro;
+        }
+        return root.val + (left > right ? left : right);
+    }
+
     /**104
      * @param root
      * @return
